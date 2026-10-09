@@ -1,6 +1,6 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Center, Environment, Lightformer, useGLTF, ContactShadows } from "@react-three/drei";
-import { Suspense, useEffect, useRef, useMemo } from "react";
+import { createElement, Suspense, useEffect, useRef, useMemo } from "react";
 import * as THREE from "three";
 import jarAsset from "@/assets/chenkai-jar.glb.asset.json";
 
@@ -38,12 +38,11 @@ function Jar() {
     const cs = g.current.scale.x + (s - g.current.scale.x) * k;
     g.current.scale.setScalar(cs);
   });
-  return (
-    <group ref={g}>
-      <Center>
-        <primitive object={scene} scale={modelScale} />
-      </Center>
-    </group>
+  // Three objects are not DOM nodes: keep editor DOM metadata off their props.
+  return createElement("group", { ref: g },
+    createElement(Center, null,
+      createElement("primitive", { object: scene, scale: modelScale }),
+    ),
   );
 }
 
@@ -67,8 +66,8 @@ export function JarScene() {
   return (
     <div className="pointer-events-none absolute inset-0 z-10">
       <div className="sticky top-0 h-[100svh]"><Canvas dpr={[1, 1.25]} camera={{ position: [0, 0.3, 5], fov: 35 }} gl={{ alpha: true }}>
-        <ambientLight intensity={0.6} />
-        <directionalLight position={[3, 5, 4]} intensity={2} />
+        {createElement("ambientLight", { intensity: 0.6 })}
+        {createElement("directionalLight", { position: [3, 5, 4], intensity: 2 })}
         <Suspense fallback={null}>
           <Jar />
           <ContactShadows frames={1} position={[0, -1.4, 0]} opacity={0.35} blur={2.5} scale={6} />
