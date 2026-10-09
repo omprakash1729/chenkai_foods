@@ -19,7 +19,9 @@ function Jar() {
     const i = Math.floor(seg);
     const t = seg - i;
     const e = t * t * (3 - 2 * t);
-    const tx = xs[i] + (xs[i + 1] - xs[i]) * e;
+    const a = xs[i] ?? 0;
+    const b = xs[i + 1] ?? 0;
+    const tx = a + (b - a) * e;
     const ty = mobile ? 0.5 - p * 0.3 : 0;
     const s = (mobile ? 1.8 : 2.4) * (1 + Math.sin(p * Math.PI) * 0.15);
     if (!g.current) return;
