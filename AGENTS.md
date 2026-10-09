@@ -8,3 +8,7 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep the product catalog and image associations in `src/lib/products.ts`, rendered through the shared ProductCard, so collection and home remain consistent.
+- Keep the scroll-driven GLB scene contained in the home storytelling area, so later content and other pages stay unobstructed.
+- Use leaf TanStack routes for collection, story and contact pages, so navigation resolves to distinct content.
