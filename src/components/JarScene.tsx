@@ -23,7 +23,7 @@ function Jar() {
     const b = xs[i + 1] ?? 0;
     const tx = a + (b - a) * e;
     const ty = mobile ? 0.5 - p * 0.3 : 0;
-    const s = (mobile ? 1.8 : 2.4) * (1 + Math.sin(p * Math.PI) * 0.15);
+    const s = (mobile ? 1.4 : 2.0) * (1 + Math.sin(p * Math.PI) * 0.15);
     if (!g.current) return;
     const k = 1 - Math.exp(-6 * dt);
     g.current.position.x += (tx - g.current.position.x) * k;
