@@ -1,54 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Nav, Footer, waLink } from "@/components/site";
+import { useState } from "react";
+import { Nav, Footer, OrderBand } from "@/components/site";
 import { products } from "@/lib/products";
-
+import { ProductCard } from "@/components/ProductCard";
+import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/products")({
-  head: () => ({
-    meta: [
-      { title: "Products — Chenkai Food" },
-      { name: "description", content: "Browse Chenkai Food pickles and thokku, and book your jar on WhatsApp." },
-      { property: "og:title", content: "Products — Chenkai Food" },
-      { property: "og:description", content: "Browse our pickles and thokku, and book on WhatsApp." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
-  component: Products,
+  head: () => ({ meta: [
+    { title: "The Collection — Chenkai Food" }, { name: "description", content: "Explore prawn pickle, mango thokku and more Chenkai Food flavours. Book your favourite on WhatsApp." },
+    { property: "og:title", content: "The Collection — Chenkai Food" }, { property: "og:description", content: "Find your favourite South Indian pickle and thokku." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
+  ] }), component: Products,
 });
-
 function Products() {
-  return (
-    <div>
-      <Nav />
-      <main className="mx-auto max-w-7xl px-4 pb-24 pt-28 md:px-8">
-        <h1 className="font-display text-[16vw] uppercase leading-none md:text-[8vw]">
-          The <span className="text-primary">shelf.</span>
-        </h1>
-        <div className="mt-12 grid border-l border-t border-border sm:grid-cols-2 lg:grid-cols-3">
-          {products.map((p, i) => (
-            <article key={p.name} className="group flex flex-col border-b border-r border-border p-6 transition-colors hover:bg-foreground hover:text-background md:p-8">
-              <div className="flex justify-between text-xs font-semibold uppercase tracking-widest">
-                <span className="text-primary">{p.tag}</span>
-                <span>0{i + 1}</span>
-              </div>
-              <h2 className="mt-10 font-display text-3xl uppercase md:text-4xl">{p.name}</h2>
-              <p className="mt-3 flex-1 text-sm opacity-80">{p.desc}</p>
-              <div className="mt-8 flex items-center justify-between gap-4">
-                <span className="font-semibold">{p.price}</span>
-                <a
-                  href={waLink(`Hi Chenkai Food, I'd like to book: ${p.name} (${p.price}).`)}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="bg-primary px-5 py-3 text-sm font-semibold uppercase text-primary-foreground"
-                >
-                  Book now
-                </a>
-              </div>
-            </article>
-          ))}
-        </div>
-      </main>
-      <Footer />
-    </div>
-  );
+  const [filter, setFilter] = useState("All flavours");
+  const shown = products.filter(p => filter === "All flavours" || p.category === filter);
+  return <div><Nav /><main className="page-width pb-24 pt-36"><p className="eyebrow text-primary">The Chenkai collection</p><div className="mt-5 flex flex-wrap items-end justify-between gap-6"><h1 className="font-display text-5xl uppercase leading-tight md:text-7xl">A shelf full<br />of <span className="text-primary">flavour.</span></h1><p className="max-w-xs text-sm leading-relaxed text-muted-foreground">Fiery, tangy, bold. Pick the jar that speaks to you.</p></div><div className="mb-8 mt-12 flex items-center justify-between gap-3 border-y border-border/20 py-4"><div className="flex gap-1" aria-label="Filter products">{["All flavours","Pickles","Thokku"].map(f => <Button key={f} variant={filter === f ? "default" : "ghost"} onClick={() => setFilter(f)} aria-pressed={filter === f} className="rounded-none px-3 text-xs shadow-none md:px-5">{f}</Button>)}</div><span className="text-xs text-muted-foreground">{shown.length} jars</span></div><div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">{shown.map(p => <ProductCard key={p.name} product={p} />)}</div></main><OrderBand /><Footer /></div>;
 }

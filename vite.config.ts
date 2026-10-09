@@ -7,6 +7,13 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
+  vite: {
+    optimizeDeps: {
+      // Prebundle both renderers and UI hooks together, avoiding a second React
+      // module generation when the jar or a slotted button first loads.
+      include: ["@radix-ui/react-slot", "@react-three/fiber", "@react-three/drei"],
+    },
+  },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
