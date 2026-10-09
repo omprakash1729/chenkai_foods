@@ -69,13 +69,13 @@ export function JarScene() {
         {createElement("ambientLight", { intensity: 0.6 })}
         {createElement("directionalLight", { position: [3, 5, 4], intensity: 2 })}
         <Suspense fallback={null}>
-          <Jar />
-          <ContactShadows frames={1} position={[0, -1.4, 0]} opacity={0.35} blur={2.5} scale={6} />
-          <Environment resolution={128}>
-            <Lightformer intensity={2} position={[0, 5, 0]} scale={[10, 10, 1]} />
-            <Lightformer intensity={1.5} color="#ff3b30" position={[-5, 1, -1]} rotation-y={Math.PI / 2} scale={[20, 1, 1]} />
-            <Lightformer intensity={1} position={[5, 1, 1]} rotation-y={-Math.PI / 2} scale={[20, 2, 1]} />
-          </Environment>
+          {createElement(Jar)}
+          {createElement(ContactShadows, { frames: 1, position: [0, -1.4, 0], opacity: 0.35, blur: 2.5, scale: 6 })}
+          {createElement(Environment, { resolution: 128 },
+            createElement(Lightformer, { intensity: 2, position: [0, 5, 0], scale: [10, 10, 1] }),
+            createElement(Lightformer, { intensity: 1.5, color: "#ff3b30", position: [-5, 1, -1], rotation: [0, Math.PI / 2, 0], scale: [20, 1, 1] }),
+            createElement(Lightformer, { intensity: 1, position: [5, 1, 1], rotation: [0, -Math.PI / 2, 0], scale: [20, 2, 1] }),
+          )}
         </Suspense>
       </Canvas></div>
     </div>
