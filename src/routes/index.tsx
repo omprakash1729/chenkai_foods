@@ -177,9 +177,11 @@ function Home() {
         <div className="relative z-30">
           <OrderBand />
         </div>
-      </div>
 
-      <Footer />
+        <div className="relative z-30">
+          <Footer />
+        </div>
+      </div>
     </div>
   );
 }

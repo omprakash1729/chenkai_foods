@@ -45,52 +45,62 @@ function GLTFJar() {
     const mobile = state.size.width < 768;
     const side = state.viewport.width * 0.25;
 
-    // Smooth journey across entire site from top to end:
-    // Hero (right) -> Sec 01 (left) -> Products (right) -> Banner (left) -> Sec 04 (right) -> End / OrderBand (center)
+    // Smooth journey across entire site from top to footer:
+    // 0: Hero (right) -> 1: Sec 01 (left) -> 2: Products (right) -> 3: Banner (left) -> 4: Sec 04 (right) -> 5: OrderBand (center-right) -> 6: Footer (behind footer text)
     const xs = mobile
-      ? [0, 0, 0, 0, 0, 0]
-      : [side * 0.95, -side * 0.95, side * 0.85, -side * 0.8, side * 0.85, 0];
+      ? [0, 0, 0, 0, 0, 0, 0]
+      : [side * 0.95, -side * 0.95, side * 0.85, -side * 0.8, side * 0.85, side * 0.45, side * 0.35];
 
-    const seg = Math.min(p * 5, 4.999);
+    const numSegments = 6;
+    const seg = Math.min(p * numSegments, numSegments - 0.0001);
     const i = Math.floor(seg);
-    const t = seg - i;
+    const t = seg - i; // progress in between section i and section i+1 (0 to 1)
+
+    // Smooth horizontal position interpolation
     const e = t * t * (3 - 2 * t);
     const a = xs[i] ?? 0;
     const b = xs[i + 1] ?? 0;
     const tx = a + (b - a) * e;
     const ty = mobile ? -state.viewport.height * 0.22 : 0;
-    const s = state.viewport.height * (mobile ? 0.26 : 0.5) * (1 + Math.sin(p * Math.PI * 2) * 0.06);
+    const s = state.viewport.height * (mobile ? 0.26 : 0.48) * (1 + Math.sin(p * Math.PI * 2) * 0.04);
 
     // CURSOR INTERACTION:
     // 1. Reactive hover tilt tracking across viewport
-    const hoverTiltX = -cursor.hoverY * 0.55;
-    const hoverTiltY = cursor.hoverX * 0.85;
+    const hoverTiltX = -cursor.hoverY * 0.45;
+    const hoverTiltY = cursor.hoverX * 0.75;
 
     // 2. Direct user click-and-drag 360-degree rotation
     const userDragX = cursor.dragY;
     const userDragY = cursor.dragX;
 
-    // FRONT LABEL ORIENTATION:
-    // Starts facing the FRONT branded label (180 deg opposite of untextured back)
+    // FRONT PRAWN PICKLE LABEL ORIENTATION:
+    // The branded front label ("PRAWN PICKLE") faces directly forward towards the camera
     const LABEL_FRONT_OFFSET = Math.PI * 1.55;
 
-    // SCROLL FLIPS:
-    // Dynamic vertical flip on X (360 deg flips during travel across page)
-    const verticalFlip = progress.reduced ? 0 : p * Math.PI * 4;
-    // Horizontal spin on Y across scroll
-    const horizontalSpin = progress.reduced ? 0 : p * Math.PI * 6;
-    // Dynamic tumble roll on Z
-    const tumbleRoll = progress.reduced ? 0 : Math.sin(p * Math.PI * 4) * 0.35;
+    // SEAMLESS VERTICAL FLIP IN BETWEEN SECTIONS:
+    // When in position of a section (t <= 0.15 or t >= 0.85), the jar is rock-solid UPRIGHT (pitch = 0).
+    // The vertical flip happens purely IN BETWEEN sections (0.15 < t < 0.85), executing 1 smooth 360° flip.
+    const u = Math.max(0, Math.min(1, (t - 0.15) / 0.7));
+    // Quintic smootherstep easing: seamless, elegant, not too fast, not too slow
+    const flipEase = u * u * u * (u * (u * 6 - 15) + 10);
+    const verticalFlip = progress.reduced ? 0 : (i * Math.PI * 2) + (flipEase * Math.PI * 2);
+
+    // Subtle dynamic yaw sway & roll banking strictly during in-between flip; 0 at every section
+    const inBetweenSwayY = progress.reduced ? 0 : Math.sin(flipEase * Math.PI) * 0.14;
+    const inBetweenRollZ = progress.reduced ? 0 : Math.sin(flipEase * Math.PI) * ((i % 2 === 0 ? 1 : -1) * 0.12);
 
     if (!g.current) return;
     const k = 1 - Math.exp(-8 * dt);
     g.current.position.x += (tx - g.current.position.x) * k;
     g.current.position.y += (ty - g.current.position.y) * k;
 
-    // Target rotations combining scroll flips + cursor hover tilt + user drag rotation
+    // Target rotations:
+    // - X-axis: Always exact multiple of 2*PI (0 rad = upright) at every section; flips seamlessly in between
     const targetRotX = verticalFlip + hoverTiltX + userDragX;
-    const targetRotY = LABEL_FRONT_OFFSET + horizontalSpin + hoverTiltY + userDragY;
-    const targetRotZ = tumbleRoll;
+    // - Y-axis: Centered on front Prawn Pickle label; subtle sway during flip; drag & hover responsive
+    const targetRotY = LABEL_FRONT_OFFSET + inBetweenSwayY + hoverTiltY + userDragY;
+    // - Z-axis: Flat at every section; subtle bank during in-between transition
+    const targetRotZ = inBetweenRollZ;
 
     g.current.rotation.x += (targetRotX - g.current.rotation.x) * k;
     g.current.rotation.y += (targetRotY - g.current.rotation.y) * k;

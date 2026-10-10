@@ -155,8 +155,8 @@ export function TrustBadges() {
 
 export function Footer() {
   return (
-    <footer className="relative z-20 mt-0 border-t border-border/10 bg-foreground text-background pt-16 pb-12 px-6 md:px-12">
-      <div className="mx-auto max-w-7xl">
+    <footer className="relative z-30 mt-0 border-t border-border/10 bg-zinc-950/85 backdrop-blur-md text-background pt-16 pb-12 px-6 md:px-12">
+      <div className="relative z-40 mx-auto max-w-7xl">
         <div className="grid gap-12 pb-16 lg:grid-cols-[2fr_1fr_1fr_1.5fr]">
           {/* Brand Column */}
           <div>
