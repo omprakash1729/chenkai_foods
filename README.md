@@ -1,42 +1,25 @@
-# Chenkai Jar Showcase
+# Chenkai Foods — The Science of Tradition
 
-i need scroll animation of the jar ...make all device responsive 
+Artisanal seafood creations crafted with food science precision and coastal South Indian heritage. Proprietor: Dr. R. Navaneethan, Ph.D. in Food Science and Technology.
 
-remember i have a glb file 
-
-idont want the site to look like the usual ai generated website 
-
-red black and white are my color 
-
-i gave refernce of the site for 
-
-company name is Chenkai foodi need scroll animation of the jar ...make all device responsive
-
-remember i have a glb file
-
-idont want the site to look like the usual ai generated website red black and white are my color
-
-i gave refernce of the site for company name is Chenkai food
-
-ineed a pprioduct page book now redirects to 6374392488 whatsapp
-
-This project was built with [Lovable](https://lovable.dev).
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/c56bda6c-26a0-4511-88c3-6fafed71f6c1).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+## Key Features
+- **Artisanal Seafood Pickles**: Fish Pickle and Prawn Pickle made with wild-caught harvests and single-origin hand-pounded spices.
+- **Premium Dry Fish Selections**: Sun-cured Anchovy (Nethili), Seer Fish (Vanjaram), and Baby Prawns (Chenakunni) with sea salt and turmeric.
+- **Pure & Uncompromising**: 100% free of artificial preservatives, synthetic colors, and commercial flavor enhancers.
+- **3D Interactive Storytelling**: Scroll-driven Three.js 3D jar experience showcasing our heritage and craftsmanship.
 
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Requires Node.js (v18+) and npm.
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
 npm i
 npm run dev
+```
+
+### Build & Test
+
+```sh
+npm run test
+npm run build
 ```
