@@ -38,8 +38,8 @@ function Home() {
         <JarScene />
 
         {/* Hero Section */}
-        <section className="relative min-h-[90svh] px-5 pb-12 pt-36 md:px-8 md:pt-44 flex flex-col justify-between">
-          <div className="relative z-20 mx-auto max-w-7xl w-full">
+        <section className="relative z-10 min-h-[90svh] px-5 pb-12 pt-36 md:px-8 md:pt-44 flex flex-col justify-between">
+          <div className="relative z-30 mx-auto max-w-7xl w-full">
             <p className="eyebrow text-primary">South Indian soul. Unmistakable flavour.</p>
             <h1 className="mt-6 font-display text-5xl uppercase leading-[1.02] sm:text-6xl md:text-7xl lg:text-8xl">
               Chenkai<br />
@@ -55,15 +55,15 @@ function Home() {
               </Link>
             </Button>
           </div>
-          <div className="relative z-20 mx-auto flex w-full max-w-7xl justify-between border-t border-border/20 pt-4 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+          <div className="relative z-30 mx-auto flex w-full max-w-7xl justify-between border-t border-border/20 pt-4 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
             <span>Pickles / Thokku / Preserves</span>
             <ArrowDown size={16} />
           </div>
         </section>
 
         {/* Section 01: The signature jar (Clean Red Background matching OrderBand) */}
-        <section className="relative min-h-[85svh] bg-gradient-to-br from-red-950 via-primary to-black px-5 py-20 text-primary-foreground md:px-8 md:py-32 border-y border-primary/20 shadow-2xl overflow-hidden">
-          <div className="relative z-20 mx-auto grid max-w-7xl md:grid-cols-2 gap-10 items-center">
+        <section className="relative z-10 min-h-[85svh] bg-gradient-to-br from-red-950 via-primary to-black px-5 py-20 text-primary-foreground md:px-8 md:py-32 border-y border-primary/20 shadow-2xl overflow-hidden">
+          <div className="relative z-30 mx-auto grid max-w-7xl md:grid-cols-2 gap-10 items-center">
             <div className="hidden md:block" />
             <div>
               <p className="eyebrow text-primary-foreground/90 font-bold tracking-[0.25em]">01 / The signature jar</p>
@@ -82,100 +82,103 @@ function Home() {
             </div>
           </div>
         </section>
-      </div>
 
-      {/* Red Ribbon Bar: Section Two previous Red Accent */}
-      <div className="border-y border-border bg-primary py-5 text-center text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground">
-        A little heat · A little tang · A whole lot of Chenkai
-      </div>
+        {/* Red Ribbon Bar */}
+        <div className="relative z-10 border-y border-border bg-primary py-5 text-center text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground">
+          A little heat · A little tang · A whole lot of Chenkai
+        </div>
 
-      {/* Section 02: The favourites (Product Showcase) */}
-      <section className="section-space">
-        <div className="page-width">
-          <div className="mb-10 flex flex-wrap items-end justify-between gap-5">
-            <div>
-              <p className="eyebrow text-primary">02 / The favourites</p>
-              <h2 className="section-heading mt-4">
-                Meet your<br />next favourite.
+        {/* Section 02: The favourites (Product Showcase) */}
+        <section className="relative z-10 section-space">
+          <div className="relative z-30 page-width">
+            <div className="mb-10 flex flex-wrap items-end justify-between gap-5">
+              <div>
+                <p className="eyebrow text-primary">02 / The favourites</p>
+                <h2 className="section-heading mt-4">
+                  Meet your<br />next favourite.
+                </h2>
+              </div>
+              <Button asChild variant="link" className="p-0 text-foreground font-bold text-xs uppercase tracking-wider hover:text-primary">
+                <Link to="/products">
+                  All flavours <ArrowUpRight />
+                </Link>
+              </Button>
+            </div>
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {products.slice(0, 3).map((p) => (
+                <ProductCard key={p.id ?? p.name} product={p} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Section 03: At your table */}
+        <section className="relative z-10 my-8 overflow-hidden">
+          <img
+            src={table}
+            alt="Pickles, rice, mango and chillies on a white table"
+            loading="lazy"
+            width={1536}
+            height={1024}
+            className="h-[460px] w-full object-cover md:h-[580px]"
+          />
+          <div className="absolute inset-0 bg-foreground/60 backdrop-blur-[0.5px]" />
+          <div className="absolute inset-0 flex items-end px-6 pb-14 text-primary-foreground md:px-12 md:pb-20 z-30">
+            <div className="mx-auto w-full max-w-7xl">
+              <p className="eyebrow text-primary font-bold">03 / At your table</p>
+              <h2 className="mt-4 max-w-3xl font-display text-3xl uppercase leading-tight sm:text-5xl md:text-6xl text-white">
+                Ordinary meals.<br />Extraordinary company.
               </h2>
             </div>
-            <Button asChild variant="link" className="p-0 text-foreground font-bold text-xs uppercase tracking-wider hover:text-primary">
-              <Link to="/products">
-                All flavours <ArrowUpRight />
-              </Link>
-            </Button>
           </div>
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {products.slice(0, 3).map((p) => (
-              <ProductCard key={p.id ?? p.name} product={p} />
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Section 03: At your table */}
-      <section className="relative my-8 overflow-hidden">
-        <img
-          src={table}
-          alt="Pickles, rice, mango and chillies on a white table"
-          loading="lazy"
-          width={1536}
-          height={1024}
-          className="h-[460px] w-full object-cover md:h-[580px]"
-        />
-        <div className="absolute inset-0 bg-foreground/60 backdrop-blur-[0.5px]" />
-        <div className="absolute inset-0 flex items-end px-6 pb-14 text-primary-foreground md:px-12 md:pb-20">
-          <div className="mx-auto w-full max-w-7xl">
-            <p className="eyebrow text-primary font-bold">03 / At your table</p>
-            <h2 className="mt-4 max-w-3xl font-display text-3xl uppercase leading-tight sm:text-5xl md:text-6xl text-white">
-              Ordinary meals.<br />Extraordinary company.
-            </h2>
-          </div>
-        </div>
-      </section>
-
-      {/* Section 04: The Chenkai way */}
-      <section className="section-space">
-        <div className="page-width grid gap-10 md:grid-cols-2 md:gap-20 items-start">
-          <div>
-            <p className="eyebrow text-primary">04 / The Chenkai way</p>
-            <h2 className="section-heading mt-4">
-              Flavour is<br />in the details.
-            </h2>
-            <Button asChild variant="link" className="mt-6 p-0 text-foreground font-bold text-xs uppercase tracking-wider hover:text-primary">
-              <Link to="/story">
-                Our story <ArrowUpRight />
-              </Link>
-            </Button>
-          </div>
-          <div className="divide-y divide-border/20 border-t border-border/20">
-            {[
-              {
-                t: "The ingredients",
-                d: "The sharpness of mango. The warmth of chilli. The fragrance of gingelly oil.",
-              },
-              {
-                t: "The balance",
-                d: "Heat, salt and tang — each flavour brings something different to the table.",
-              },
-              {
-                t: "The moment",
-                d: "With rice, dosa or a favourite meal. Find the pairing that feels like yours.",
-              },
-            ].map((s, i) => (
-              <div key={s.t} className="grid grid-cols-[32px_1fr] gap-4 py-7">
-                <span className="text-xs font-bold text-primary">0{i + 1}</span>
-                <div>
-                  <h3 className="font-display text-xl uppercase tracking-wide">{s.t}</h3>
-                  <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">{s.d}</p>
+        {/* Section 04: The Chenkai way */}
+        <section className="relative z-10 section-space">
+          <div className="relative z-30 page-width grid gap-10 md:grid-cols-2 md:gap-20 items-start">
+            <div>
+              <p className="eyebrow text-primary">04 / The Chenkai way</p>
+              <h2 className="section-heading mt-4">
+                Flavour is<br />in the details.
+              </h2>
+              <Button asChild variant="link" className="mt-6 p-0 text-foreground font-bold text-xs uppercase tracking-wider hover:text-primary">
+                <Link to="/story">
+                  Our story <ArrowUpRight />
+                </Link>
+              </Button>
+            </div>
+            <div className="divide-y divide-border/20 border-t border-border/20">
+              {[
+                {
+                  t: "The ingredients",
+                  d: "The sharpness of mango. The warmth of chilli. The fragrance of gingelly oil.",
+                },
+                {
+                  t: "The balance",
+                  d: "Heat, salt and tang — each flavour brings something different to the table.",
+                },
+                {
+                  t: "The moment",
+                  d: "With rice, dosa or a favourite meal. Find the pairing that feels like yours.",
+                },
+              ].map((s, i) => (
+                <div key={s.t} className="grid grid-cols-[32px_1fr] gap-4 py-7">
+                  <span className="text-xs font-bold text-primary">0{i + 1}</span>
+                  <div>
+                    <h3 className="font-display text-xl uppercase tracking-wide">{s.t}</h3>
+                    <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">{s.d}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <OrderBand />
+        <div className="relative z-30">
+          <OrderBand />
+        </div>
+      </div>
+
       <Footer />
     </div>
   );
