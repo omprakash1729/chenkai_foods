@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import * as THREE from "three";
+import loadingVideo from "@/assets/LOADINGANIMATION.mp4";
 
 export function InitialLoader() {
   const [visible, setVisible] = useState(true);
@@ -118,7 +119,7 @@ export function InitialLoader() {
       <div className="relative w-80 sm:w-[460px] flex items-center justify-center">
         <video
           ref={videoRef}
-          src="/LOADINGANIMATION.mp4"
+          src={loadingVideo}
           autoPlay
           muted
           playsInline

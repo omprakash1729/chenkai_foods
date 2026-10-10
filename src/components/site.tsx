@@ -2,9 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Menu, X, ShieldCheck, Award, Microscope, MessageCircle, Instagram } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-
-export const WHATSAPP = "916374392488";
-export const waLink = (msg: string) => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+import { WHATSAPP, waLink } from "@/lib/whatsapp";
+export { WHATSAPP, waLink };
 
 const links = [
   { to: "/", label: "Home" },
