@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, Microscope, Sparkles, Sun, Droplets, Flame } from "lucide-react";
+import { ArrowUpRight, Sun, Droplets, Flame } from "lucide-react";
 import { Nav, Footer, OrderBand, TrustBadges } from "@/components/site";
 import { Button } from "@/components/ui/button";
 import table from "@/assets/pickle-table.jpg";
@@ -44,9 +44,7 @@ function Story() {
           />
           <div className="absolute inset-0 bg-foreground/65 backdrop-blur-[2px]" />
           <div className="page-width relative z-10 w-full text-primary-foreground">
-            <div className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-primary-foreground mb-4">
-              <Microscope size={14} /> Founder's Heritage
-            </div>
+            <p className="eyebrow text-primary-foreground/90 font-bold mb-3">Founder's Heritage</p>
             <h1 className="font-display text-4xl uppercase leading-tight sm:text-6xl md:text-7xl">
               The Science of<br />
               <span className="text-primary">Tradition.</span>

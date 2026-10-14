@@ -155,7 +155,7 @@ export function TrustBadges() {
 
 export function Footer() {
   return (
-    <footer className="relative z-30 mt-0 border-t border-border/10 bg-zinc-950/85 backdrop-blur-md text-background pt-16 pb-12 px-6 md:px-12">
+    <footer className="relative z-30 mt-0 border-t border-white/10 bg-black text-white pt-16 pb-12 px-6 md:px-12">
       <div className="relative z-40 mx-auto max-w-7xl">
         <div className="grid gap-12 pb-16 lg:grid-cols-[2fr_1fr_1fr_1.5fr]">
           {/* Brand Column */}
@@ -175,12 +175,12 @@ export function Footer() {
               The Science of Tradition
             </p>
 
-            <p className="mt-4 max-w-sm text-xs md:text-sm leading-relaxed text-background/70">
+            <p className="mt-4 max-w-sm text-xs md:text-sm leading-relaxed text-white/70">
               Artisanal coastal seafood pickles and sun-cured dry fish created with food science precision and coastal South Indian passion.
             </p>
 
             <div className="mt-6 flex flex-wrap items-center gap-3">
-              <Button asChild size="sm" className="rounded-full bg-primary text-primary-foreground font-bold text-xs uppercase tracking-wider px-5">
+              <Button asChild size="sm" className="rounded-full bg-primary hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider px-5">
                 <a href={waLink("Hi Chenkai Foods, I have an inquiry.")} target="_blank" rel="noreferrer">
                   WhatsApp Orders <ArrowUpRight size={14} />
                 </a>
@@ -201,7 +201,7 @@ export function Footer() {
             <p className="eyebrow text-primary mb-4">Navigation</p>
             <nav className="flex flex-col gap-2 text-xs font-bold uppercase tracking-wider">
               {links.map((l) => (
-                <Link key={l.to} to={l.to} className="hover:text-primary transition-colors py-1 text-background/80">
+                <Link key={l.to} to={l.to} className="hover:text-primary transition-colors py-1 text-white/80">
                   {l.label}
                 </Link>
               ))}
@@ -211,7 +211,7 @@ export function Footer() {
           {/* Product Categories */}
           <div>
             <p className="eyebrow text-primary mb-4">Our Selections</p>
-            <ul className="flex flex-col gap-2 text-xs font-bold uppercase tracking-wider text-background/70">
+            <ul className="flex flex-col gap-2 text-xs font-bold uppercase tracking-wider text-white/70">
               <li className="hover:text-primary transition-colors cursor-pointer">Artisanal Fish Pickle</li>
               <li className="hover:text-primary transition-colors cursor-pointer">Wild Prawn Pickle</li>
               <li className="hover:text-primary transition-colors cursor-pointer">Sun-Cured Anchovy (Nethili)</li>
@@ -223,7 +223,7 @@ export function Footer() {
           {/* Contact Details & Space for 3D Jar on the Right */}
           <div className="pr-4 md:pr-12">
             <p className="eyebrow text-primary mb-4">Contact & Support</p>
-            <p className="text-xs font-bold uppercase text-background">Official Enquiries Desk</p>
+            <p className="text-xs font-bold uppercase text-white">Official Enquiries Desk</p>
             <a
               className="mt-2 inline-flex items-center gap-2 text-sm font-bold text-primary hover:underline"
               href={waLink("Hi Chenkai Foods!")}
@@ -232,7 +232,7 @@ export function Footer() {
             >
               +91 63743 92488 <ArrowUpRight size={16} />
             </a>
-            <p className="mt-2 text-xs text-background/60 leading-relaxed">
+            <p className="mt-2 text-xs text-white/60 leading-relaxed">
               Coastal Artisanal Facility,<br />
               Southern Coast, Tamil Nadu, India.
             </p>
@@ -248,14 +248,14 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar without Back to Top Button */}
-        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-background/15 pt-8 text-xs text-background/50">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/15 pt-8 text-xs text-white/50">
           <span>© {new Date().getFullYear()} Chenkai Foods. All rights reserved.</span>
 
           <a
             href="https://www.instagram.com/chenkaifoods/"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs text-background/70 hover:text-primary transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs text-white/70 hover:text-primary transition-colors"
           >
             <Instagram size={14} /> Instagram: @chenkaifoods
           </a>

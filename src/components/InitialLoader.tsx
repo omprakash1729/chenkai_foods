@@ -143,7 +143,7 @@ export function InitialLoader() {
           />
         </div>
         <div className="mt-3 flex items-center justify-between w-full text-[11px] font-mono tracking-widest text-foreground/60 uppercase font-semibold">
-          <span>{progress >= 100 ? "READY" : (!siteLoaded ? "LOADING 3D SHOWCASE" : "COMPLETING INTRO")}</span>
+          <span>{progress >= 100 ? "READY ✓" : (!siteLoaded ? "Your pickle is getting ready" : "Almost ready…")}</span>
           <span className="font-bold text-primary">{Math.round(progress)}%</span>
         </div>
       </div>

@@ -4,7 +4,16 @@ import { createElement, Suspense, useEffect, useRef, useMemo } from "react";
 import * as THREE from "three";
 
 
-const progress = { v: 0, reduced: false };
+const SECTION_IDS = [
+  "sec-hero",
+  "sec-signature",
+  "sec-collection",
+  "sec-table",
+  "sec-chenkai-way",
+  "sec-orderband",
+];
+
+const progress = { v: 0, seg: 0, reduced: false };
 const cursor = {
   hoverX: 0,
   hoverY: 0,
@@ -43,26 +52,47 @@ function GLTFJar() {
     const dt = Math.min(raw, 0.033);
     const p = progress.reduced ? 0 : progress.v;
     const mobile = state.size.width < 768;
-    const side = state.viewport.width * 0.25;
+    const tablet = state.size.width >= 768 && state.size.width < 1024;
+    const side = state.viewport.width * (tablet ? 0.2 : 0.25);
 
-    // Smooth journey across entire site from top to footer:
-    // 0: Hero (right) -> 1: Sec 01 (left) -> 2: Products (right) -> 3: Banner (left) -> 4: Sec 04 (right) -> 5: OrderBand (center-right) -> 6: Footer (behind footer text)
+    // xs positions corresponding to:
+    // 0: sec-hero -> RIGHT
+    // 1: sec-signature -> LEFT
+    // 2: sec-collection -> RIGHT
+    // 3: sec-table -> RIGHT (user requirement: at your table jar goes right)
+    // 4: sec-chenkai-way -> LEFT (user requirement: 04 chenkai way jar goes left)
+    // 5: sec-orderband -> RIGHT (order band CTA)
+    // 6: beyond -> RIGHT
     const xs = mobile
       ? [0, 0, 0, 0, 0, 0, 0]
-      : [side * 0.95, -side * 0.95, side * 0.85, -side * 0.8, side * 0.85, side * 0.45, side * 0.35];
+      : tablet
+        ? [side * 0.9, -side * 0.9, side * 0.8, side * 0.82, -side * 0.85, side * 0.4, side * 0.4]
+        : [side * 0.95, -side * 0.95, side * 0.85, side * 0.88, -side * 0.92, side * 0.45, side * 0.45];
 
-    const numSegments = 6;
-    const seg = Math.min(p * numSegments, numSegments - 0.0001);
-    const i = Math.floor(seg);
+    const seg = Math.min(Math.max(0, progress.seg), 5.999);
+    const i = Math.min(Math.floor(seg), 5);
     const t = seg - i; // progress in between section i and section i+1 (0 to 1)
 
     // Smooth horizontal position interpolation
     const e = t * t * (3 - 2 * t);
     const a = xs[i] ?? 0;
-    const b = xs[i + 1] ?? 0;
+    const b = xs[i + 1] ?? a;
     const tx = a + (b - a) * e;
-    const ty = mobile ? -state.viewport.height * 0.22 : 0;
-    const s = state.viewport.height * (mobile ? 0.26 : 0.48) * (1 + Math.sin(p * Math.PI * 2) * 0.04);
+
+    // On mobile: jar sits bottom-right of hero, then slides OUT OF FRAME below when scrolled.
+    // This prevents it from overlapping the products section.
+    const mobileVisibleUntil = 0.18; // fraction of total scroll where jar should leave on mobile
+    const mobileExitProgress = mobile ? Math.max(0, (p - mobileVisibleUntil) / 0.08) : 0;
+    const mobileExitY = mobile ? mobileExitProgress * state.viewport.height * 2.5 : 0;
+
+    const ty = mobile
+      ? -state.viewport.height * 0.18 - mobileExitY
+      : 0;
+
+    // Scale: mobile jar is smaller and a bit more compact
+    const s = state.viewport.height *
+      (mobile ? 0.22 : tablet ? 0.38 : 0.48) *
+      (1 + Math.sin(p * Math.PI * 2) * 0.04);
 
     // CURSOR INTERACTION:
     // 1. Reactive hover tilt tracking across viewport
@@ -74,18 +104,13 @@ function GLTFJar() {
     const userDragY = cursor.dragX;
 
     // FRONT PRAWN PICKLE LABEL ORIENTATION:
-    // The branded front label ("PRAWN PICKLE") faces directly forward towards the camera
     const LABEL_FRONT_OFFSET = Math.PI * 1.55;
 
     // SEAMLESS VERTICAL FLIP IN BETWEEN SECTIONS:
-    // When in position of a section (t <= 0.15 or t >= 0.85), the jar is rock-solid UPRIGHT (pitch = 0).
-    // The vertical flip happens purely IN BETWEEN sections (0.15 < t < 0.85), executing 1 smooth 360° flip.
     const u = Math.max(0, Math.min(1, (t - 0.15) / 0.7));
-    // Quintic smootherstep easing: seamless, elegant, not too fast, not too slow
     const flipEase = u * u * u * (u * (u * 6 - 15) + 10);
     const verticalFlip = progress.reduced ? 0 : (i * Math.PI * 2) + (flipEase * Math.PI * 2);
 
-    // Subtle dynamic yaw sway & roll banking strictly during in-between flip; 0 at every section
     const inBetweenSwayY = progress.reduced ? 0 : Math.sin(flipEase * Math.PI) * 0.14;
     const inBetweenRollZ = progress.reduced ? 0 : Math.sin(flipEase * Math.PI) * ((i % 2 === 0 ? 1 : -1) * 0.12);
 
@@ -94,12 +119,8 @@ function GLTFJar() {
     g.current.position.x += (tx - g.current.position.x) * k;
     g.current.position.y += (ty - g.current.position.y) * k;
 
-    // Target rotations:
-    // - X-axis: Always exact multiple of 2*PI (0 rad = upright) at every section; flips seamlessly in between
     const targetRotX = verticalFlip + hoverTiltX + userDragX;
-    // - Y-axis: Centered on front Prawn Pickle label; subtle sway during flip; drag & hover responsive
     const targetRotY = LABEL_FRONT_OFFSET + inBetweenSwayY + hoverTiltY + userDragY;
-    // - Z-axis: Flat at every section; subtle bank during in-between transition
     const targetRotZ = inBetweenRollZ;
 
     g.current.rotation.x += (targetRotX - g.current.rotation.x) * k;
@@ -123,10 +144,51 @@ export function JarScene() {
     const onScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
+          const vh = window.innerHeight;
+          const scrollY = window.scrollY;
+
+          // Compute targets: the scrollY position where each section center aligns with viewport center
+          const targets = SECTION_IDS.map((id, index) => {
+            const el = document.getElementById(id);
+            if (!el) return index * vh;
+            if (index === 0) return 0;
+            const rect = el.getBoundingClientRect();
+            const elTop = scrollY + rect.top;
+            const elH = el.offsetHeight;
+            return Math.max(0, elTop + elH / 2 - vh / 2);
+          });
+
+          // Ensure monotonic order of targets
+          for (let k = 1; k < targets.length; k++) {
+            if (targets[k] <= targets[k - 1]) {
+              targets[k] = targets[k - 1] + 1;
+            }
+          }
+
+          let seg = 0;
+          if (scrollY <= targets[0]) {
+            seg = 0;
+          } else if (scrollY >= targets[targets.length - 1]) {
+            seg = targets.length - 1;
+          } else {
+            for (let k = 0; k < targets.length - 1; k++) {
+              const tA = targets[k];
+              const tB = targets[k + 1];
+              if (scrollY >= tA && scrollY <= tB) {
+                const span = Math.max(1, tB - tA);
+                const localProgress = (scrollY - tA) / span;
+                seg = k + localProgress;
+                break;
+              }
+            }
+          }
+
+          progress.seg = seg;
+
           const section = document.getElementById("jar-story");
           if (section) {
-            const max = section.offsetHeight - window.innerHeight;
-            progress.v = max > 0 ? Math.max(0, Math.min(1, (window.scrollY - section.offsetTop) / max)) : 0;
+            const max = section.offsetHeight - vh;
+            progress.v = max > 0 ? Math.max(0, Math.min(1, (scrollY - section.offsetTop) / max)) : 0;
             progress.reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
           }
           ticking = false;
@@ -184,11 +246,12 @@ export function JarScene() {
 
   return (
     <div className="pointer-events-none fixed inset-0 z-20">
-      <div className="sticky top-0 h-[100svh]">
+      <div className="sticky top-0 h-[100svh] w-full">
         <Canvas
           dpr={[1, 1.5]}
-          camera={{ position: [0, 0.3, 5], fov: 35 }}
+          camera={{ position: [0, 0.3, 5], fov: 38 }}
           gl={{ powerPreference: "high-performance", antialias: true, alpha: true }}
+          style={{ width: "100%", height: "100%" }}
         >
           {createElement("ambientLight", { intensity: 0.6 })}
           {createElement("directionalLight", { position: [3, 5, 4], intensity: 2 })}

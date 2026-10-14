@@ -3,8 +3,10 @@ import { useState } from "react";
 import { Nav, Footer, OrderBand, TrustBadges } from "@/components/site";
 import { products, type ProductCategory } from "@/lib/products";
 import { ProductCard } from "@/components/ProductCard";
+import { CartBar } from "@/components/CartBar";
+import { CartProvider } from "@/lib/cart";
 import { Button } from "@/components/ui/button";
-import { Filter, Sparkles } from "lucide-react";
+import { Filter } from "lucide-react";
 
 export const Route = createFileRoute("/products")({
   head: () => ({
@@ -13,7 +15,7 @@ export const Route = createFileRoute("/products")({
       {
         name: "description",
         content:
-          "Explore Chenkai Foods' collection: Fish Pickle, Prawn Pickle, Anchovy (Nethili), Seer Fish (Vanjaram), and Baby Prawns (Chenakunni). 100% natural, 0% artificial preservatives.",
+          "Explore Chenkai Foods' collection: Prawn Pickle, Crab Pickle, Fish Pickle, Solar-Dried Anchovies, Vanjaram Seer Fish, Baby Prawns and more. 100% natural, 0% artificial preservatives.",
       },
       { property: "og:title", content: "Seafood Collection — Chenkai Foods" },
       {
@@ -30,6 +32,14 @@ export const Route = createFileRoute("/products")({
 });
 
 function Products() {
+  return (
+    <CartProvider>
+      <ProductsInner />
+    </CartProvider>
+  );
+}
+
+function ProductsInner() {
   const [activeCategory, setActiveCategory] = useState<ProductCategory>("All");
 
   const categories: { label: string; value: ProductCategory }[] = [
@@ -45,14 +55,10 @@ function Products() {
   return (
     <div className="bg-background text-foreground">
       <Nav />
-      <main className="page-width pb-24 pt-36">
+      <main className="page-width pb-40 pt-36">
         {/* Category Header */}
-        <div className="flex flex-col gap-3">
-          <div className="inline-flex items-center gap-2 rounded-full glass-pill px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-primary w-fit">
-            <Sparkles size={14} /> 100% Wild Ocean Harvests
-          </div>
-
-          <span className="eyebrow text-primary mt-2">The Chenkai Collection</span>
+        <div className="flex flex-col gap-2">
+          <span className="eyebrow text-primary">The Chenkai Collection</span>
           <div className="flex flex-wrap items-end justify-between gap-6">
             <h1 className="font-display text-4xl uppercase leading-tight md:text-6xl tracking-wide">
               Seafood Pickles &<br />
@@ -90,7 +96,7 @@ function Products() {
         </div>
 
         {/* Product Grid */}
-        <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-x-6 gap-y-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {displayedProducts.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}
@@ -103,6 +109,8 @@ function Products() {
       </main>
       <OrderBand />
       <Footer />
+      {/* Swiggy-style sticky cart bar */}
+      <CartBar />
     </div>
   );
 }

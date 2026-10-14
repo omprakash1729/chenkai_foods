@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { Nav, Footer, waLink } from "@/components/site";
 import { Button } from "@/components/ui/button";
 import { products } from "@/lib/products";
+import { ProductMultiSelect, type SelectedProductItem } from "@/components/ProductMultiSelect";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -33,27 +34,54 @@ function Contact() {
     name: "",
     phone: "",
     email: "",
-    product: "Fish Pickle",
-    quantity: "1 Jar / Packet",
     message: "",
   });
+
+  const [selectedProducts, setSelectedProducts] = useState<SelectedProductItem[]>([
+    {
+      productId: "chenkai-prawn-pickle",
+      name: "Chenkai Prawn Pickle",
+      category: "Pickles",
+      image: products[0]?.image || "",
+      price: "₹450 / 250g",
+      weight: "250g Jar (Standard)",
+      qty: 1,
+    },
+  ]);
 
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    if (selectedProducts.length === 0) {
+      alert("Please select at least one product before submitting your enquiry.");
+      return;
+    }
     setSubmitted(true);
   };
 
   const constructWaMessage = () => {
+    const productLines =
+      selectedProducts.length > 0
+        ? selectedProducts
+            .map((p) => `• ${p.name} — ${p.weight} × ${p.qty}`)
+            .join("\n")
+        : "• General Seafood Enquiry";
+
+    const totalQty = selectedProducts.reduce((sum, p) => sum + p.qty, 0);
+
     return `Hi Chenkai Foods Team,
 I would like to place an enquiry / order:
 
 - Name: ${formData.name || "Customer"}
 - Phone: ${formData.phone || "Not provided"}
-- Product Interested: ${formData.product}
-- Quantity: ${formData.quantity}
-- Message: ${formData.message || "Please share availability and shipping timeline."}`;
+- Email: ${formData.email || "Not provided"}
+
+- Products & Weights Selected (${totalQty} ${totalQty === 1 ? "item" : "items"}):
+${productLines}
+
+- Message / Special Instructions:
+${formData.message || "Please share availability and shipping timeline."}`;
   };
 
   return (
@@ -73,9 +101,9 @@ I would like to place an enquiry / order:
               Have a question about our seafood pickles, sun-cured dry fish, or custom bulk orders? Our team is available to assist you.
             </p>
 
-            <div className="mt-8 space-y-6 bg-card p-8 border border-border/30">
+            <div className="mt-8 space-y-6 bg-card p-8 border border-border/30 rounded-3xl shadow-sm">
               <div className="flex items-start gap-4">
-                <div className="p-3 bg-primary/10 text-primary">
+                <div className="p-3 bg-primary/10 text-primary rounded-2xl">
                   <Phone size={20} />
                 </div>
                 <div>
@@ -91,7 +119,7 @@ I would like to place an enquiry / order:
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="p-3 bg-primary/10 text-primary">
+                <div className="p-3 bg-primary/10 text-primary rounded-2xl">
                   <MapPin size={20} />
                 </div>
                 <div>
@@ -105,12 +133,12 @@ I would like to place an enquiry / order:
             </div>
 
             {/* Quick WhatsApp Action Card */}
-            <div className="mt-8 bg-secondary p-8 border border-border/20 shadow-lg">
+            <div className="mt-8 bg-secondary p-8 border border-border/20 shadow-lg rounded-3xl">
               <h3 className="font-display text-lg uppercase">Instant Order on WhatsApp</h3>
               <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
                 Prefer direct messaging? Send your order request straight to our WhatsApp business desk.
               </p>
-              <Button asChild size="lg" className="mt-6 w-full shadow-lg font-bold text-xs uppercase tracking-wider glow-hover">
+              <Button asChild size="lg" className="mt-6 w-full shadow-lg font-bold text-xs uppercase tracking-wider glow-hover rounded-full bg-primary hover:bg-red-700 text-white h-12">
                 <a href={waLink("Hi Chenkai Foods, I'd like to inquire about ordering your seafood pickles / dry fish.")} target="_blank" rel="noreferrer">
                   <MessageCircle /> Chat directly on WhatsApp <ArrowUpRight />
                 </a>
@@ -119,28 +147,32 @@ I would like to place an enquiry / order:
           </div>
 
           {/* Right Side: Interactive Product Enquiry Form */}
-          <div className="bg-card p-8 border border-border/30 shadow-xl">
+          <div className="bg-card p-8 border border-border/30 shadow-xl rounded-3xl">
             <h2 className="font-display text-2xl uppercase tracking-wide">Product Enquiry Form</h2>
             <p className="mt-1 text-xs text-muted-foreground">
               Fill out the form below to receive pricing, delivery options, and product availability.
             </p>
 
             {submitted ? (
-              <div className="mt-8 bg-primary/10 border border-primary/30 p-6 text-foreground">
+              <div className="mt-8 bg-primary/10 border border-primary/30 p-6 text-foreground rounded-2xl">
                 <div className="flex items-center gap-3 text-primary">
                   <CheckCircle2 size={24} />
                   <h3 className="font-display text-lg uppercase">Enquiry Generated!</h3>
                 </div>
                 <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-                  Thank you, <strong className="text-foreground">{formData.name}</strong>. Your enquiry for <strong className="text-foreground">{formData.product}</strong> has been created.
+                  Thank you, <strong className="text-foreground">{formData.name}</strong>. Your enquiry for{" "}
+                  <strong className="text-foreground">
+                    {selectedProducts.length} {selectedProducts.length === 1 ? "product" : "products"}
+                  </strong>{" "}
+                  has been created.
                 </p>
 
-                <div className="mt-6 p-4 bg-background border border-border/20 text-xs font-mono whitespace-pre-wrap">
+                <div className="mt-6 p-4 bg-background border border-border/20 text-xs font-mono whitespace-pre-wrap rounded-xl">
                   {constructWaMessage()}
                 </div>
 
                 <div className="mt-6 flex flex-col gap-3">
-                  <Button asChild size="lg" className="shadow-lg font-bold text-xs uppercase tracking-wider glow-hover">
+                  <Button asChild size="lg" className="rounded-full shadow-lg font-bold text-xs uppercase tracking-wider glow-hover bg-primary hover:bg-red-700 text-white">
                     <a href={waLink(constructWaMessage())} target="_blank" rel="noreferrer">
                       <Send size={15} /> Send via WhatsApp Now <ArrowUpRight />
                     </a>
@@ -148,7 +180,7 @@ I would like to place an enquiry / order:
                   <Button
                     variant="ghost"
                     onClick={() => setSubmitted(false)}
-                    className="text-xs uppercase tracking-wider"
+                    className="rounded-full text-xs uppercase tracking-wider"
                   >
                     Edit Form Details
                   </Button>
@@ -157,7 +189,7 @@ I would like to place an enquiry / order:
             ) : (
               <form onSubmit={handleSubmit} className="mt-6 space-y-4">
                 <div>
-                  <label htmlFor="name" className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1">
+                  <label htmlFor="name" className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1.5">
                     Your Name *
                   </label>
                   <input
@@ -166,14 +198,13 @@ I would like to place an enquiry / order:
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="e.g. Anand Kumar"
-                    className="w-full border border-border/40 bg-background px-4 py-2.5 text-sm outline-none focus:border-primary transition-all"
+                    className="w-full rounded-2xl border border-red-200/90 bg-red-50/70 dark:bg-red-950/20 dark:border-red-900/40 px-4 py-3 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 focus:bg-white dark:focus:bg-card transition-all"
                   />
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
-                    <label htmlFor="phone" className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1">
+                    <label htmlFor="phone" className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1.5">
                       Phone / WhatsApp *
                     </label>
                     <input
@@ -182,13 +213,12 @@ I would like to place an enquiry / order:
                       type="tel"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder="+91 98765 43210"
-                      className="w-full border border-border/40 bg-background px-4 py-2.5 text-sm outline-none focus:border-primary transition-all"
+                      className="w-full rounded-2xl border border-red-200/90 bg-red-50/70 dark:bg-red-950/20 dark:border-red-900/40 px-4 py-3 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 focus:bg-white dark:focus:bg-card transition-all"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1">
+                    <label htmlFor="email" className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1.5">
                       Email Address (Optional)
                     </label>
                     <input
@@ -196,51 +226,28 @@ I would like to place an enquiry / order:
                       type="email"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="name@example.com"
-                      className="w-full border border-border/40 bg-background px-4 py-2.5 text-sm outline-none focus:border-primary transition-all"
+                      className="w-full rounded-2xl border border-red-200/90 bg-red-50/70 dark:bg-red-950/20 dark:border-red-900/40 px-4 py-3 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 focus:bg-white dark:focus:bg-card transition-all"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="product" className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1">
-                    Product of Interest *
+                  <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1.5">
+                    Select Products &amp; Variants / Weights *
                   </label>
-                  <select
-                    id="product"
-                    value={formData.product}
-                    onChange={(e) => setFormData({ ...formData, product: e.target.value })}
-                    className="w-full border border-border/40 bg-background px-4 py-2.5 text-sm outline-none focus:border-primary transition-all"
-                  >
-                    {products.map((p) => (
-                      <option key={p.id} value={`${p.name} (${p.price})`}>
-                        {p.name} - {p.price} [{p.category}]
-                      </option>
-                    ))}
-                    <option value="All Products Sampler Pack">All Products Sampler Pack</option>
-                    <option value="Custom Bulk / Wholesale Seafood Order">Custom Bulk / Wholesale Order</option>
-                  </select>
+                  <ProductMultiSelect
+                    selectedItems={selectedProducts}
+                    onChange={setSelectedProducts}
+                  />
+                  {selectedProducts.length === 0 && (
+                    <p className="text-[11px] text-primary mt-1 font-semibold">
+                      * Please select at least one product for your enquiry.
+                    </p>
+                  )}
                 </div>
 
                 <div>
-                  <label htmlFor="quantity" className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1">
-                    Quantity Needed
-                  </label>
-                  <select
-                    id="quantity"
-                    value={formData.quantity}
-                    onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
-                    className="w-full border border-border/40 bg-background px-4 py-2.5 text-sm outline-none focus:border-primary transition-all"
-                  >
-                    <option value="1 Jar / Packet">1 Jar / Packet</option>
-                    <option value="2-5 Jars / Packets">2 - 5 Jars / Packets</option>
-                    <option value="6-10 Jars / Packets">6 - 10 Jars / Packets</option>
-                    <option value="Bulk Order (> 10 items)">Bulk Order (&gt; 10 items)</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label htmlFor="message" className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1">
+                  <label htmlFor="message" className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1.5">
                     Message or Special Delivery Request
                   </label>
                   <textarea
@@ -248,12 +255,11 @@ I would like to place an enquiry / order:
                     rows={3}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Specify delivery location, ingredient queries, or special instructions..."
-                    className="w-full border border-border/40 bg-background px-4 py-2.5 text-sm outline-none focus:border-primary resize-none transition-all"
+                    className="w-full rounded-2xl border border-red-200/90 bg-red-50/70 dark:bg-red-950/20 dark:border-red-900/40 px-4 py-3 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 focus:bg-white dark:focus:bg-card resize-none transition-all"
                   />
                 </div>
 
-                <Button type="submit" size="lg" className="w-full shadow-lg font-bold text-xs uppercase tracking-wider glow-hover">
+                <Button type="submit" size="lg" className="w-full rounded-full shadow-lg font-bold text-xs uppercase tracking-wider glow-hover bg-primary hover:bg-red-700 text-white h-12">
                   Generate Enquiry & Send <ArrowUpRight />
                 </Button>
               </form>
