@@ -48,22 +48,38 @@ function HomeInner() {
         <JarScene />
 
         {/* Hero Section */}
-        <section id="sec-hero" className="relative z-10 min-h-[90svh] px-5 pb-12 pt-24 sm:pt-28 md:px-8 md:pt-44 flex flex-col justify-between">
+        <section id="sec-hero" className="relative z-10 min-h-[92svh] px-5 pb-10 pt-28 sm:pt-36 md:px-8 md:pt-44 flex flex-col justify-between">
           <div className="relative z-30 mx-auto max-w-7xl w-full">
-            <p className="eyebrow text-primary">South Indian soul. Unmistakable flavour.</p>
-            <h1 className="mt-3 sm:mt-4 font-display text-4xl uppercase leading-[1.02] sm:text-5xl md:text-7xl lg:text-8xl max-w-[58%] sm:max-w-none">
+            <p className="eyebrow text-primary font-black tracking-[0.25em] text-xs sm:text-sm">South Indian soul. Unmistakable flavour.</p>
+            <h1 className="mt-3 sm:mt-5 font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl uppercase tracking-tight leading-[0.96] max-w-[62%] sm:max-w-none">
               Chenkai<br />
               <span className="text-primary">Food.</span>
             </h1>
-            <p className="mt-3 sm:mt-4 max-w-[55%] sm:max-w-64 text-xs sm:text-sm leading-relaxed text-muted-foreground md:max-w-80 md:text-base">
+            <p className="mt-3 sm:mt-5 max-w-[60%] sm:max-w-md text-sm sm:text-base leading-relaxed text-muted-foreground font-medium">
               A little heat. A little tang.<br />
               A whole lot of home in every jar.
             </p>
-            <Button asChild size="lg" className="relative mt-5 sm:mt-6 rounded-full shadow-lg glow-hover font-bold text-xs uppercase tracking-wider px-6 sm:px-8 h-11 sm:h-12">
+            <Button asChild size="lg" className="relative mt-6 sm:mt-8 rounded-full shadow-xl shadow-primary/30 glow-hover font-black text-xs sm:text-sm uppercase tracking-wider px-7 sm:px-9 h-12 sm:h-14">
               <Link to="/products">
-                Find your flavour <ArrowUpRight />
+                Find your flavour <ArrowUpRight size={17} strokeWidth={2.5} />
               </Link>
             </Button>
+
+            {/* Brand Value Highlights filling the empty space on mobile */}
+            <div className="mt-8 sm:mt-10 flex flex-col gap-2 max-w-[62%] sm:max-w-xs border-t border-border/30 pt-4">
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-foreground/80">100% Wild Ocean Harvest</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-foreground/80">0% Artificial Preservatives</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-foreground/80">Coastal Heritage Recipes</span>
+              </div>
+            </div>
           </div>
           <div className="relative z-30 mx-auto flex w-full max-w-7xl justify-between border-t border-border/20 pt-4 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
             <span>Pickles / Thokku / Preserves</span>
@@ -72,23 +88,27 @@ function HomeInner() {
         </section>
 
         {/* Section 01: The signature jar (Clean Red Background matching OrderBand) */}
-        <section id="sec-signature" className="relative z-10 min-h-[75svh] sm:min-h-[85svh] bg-gradient-to-br from-red-950 via-primary to-black px-5 py-14 text-primary-foreground md:px-8 md:py-32 border-y border-primary/20 shadow-2xl overflow-hidden flex flex-col justify-center">
+        <section id="sec-signature" className="relative z-10 min-h-[78svh] sm:min-h-[85svh] bg-gradient-to-br from-red-950 via-primary to-black px-5 py-16 text-primary-foreground md:px-8 md:py-32 border-y border-primary/20 shadow-2xl overflow-hidden flex flex-col justify-center">
           <div className="relative z-30 mx-auto grid max-w-7xl md:grid-cols-2 gap-6 md:gap-10 items-center w-full">
             <div className="hidden md:block" />
             <div className="max-w-[62%] ml-auto md:max-w-none md:ml-0">
-              <p className="eyebrow text-primary-foreground/90 font-bold tracking-[0.25em]">01 / The signature jar</p>
-              <h2 className="mt-3 sm:mt-4 font-display text-3xl sm:text-4xl uppercase leading-tight md:text-6xl text-white">
+              <p className="eyebrow text-primary-foreground/90 font-black tracking-[0.25em] text-xs sm:text-sm">01 / The signature jar</p>
+              <h2 className="mt-3 sm:mt-5 font-display text-4xl sm:text-5xl uppercase leading-[0.98] md:text-6xl text-white">
                 Small jar.<br />
                 Big <span className="text-white drop-shadow">personality.</span>
               </h2>
-              <p className="mt-3 sm:mt-6 max-w-md text-xs sm:text-sm leading-relaxed text-primary-foreground/90 md:text-base font-normal">
+              <p className="mt-4 sm:mt-6 max-w-md text-sm sm:text-base leading-relaxed text-primary-foreground/90 font-normal">
                 Prawn pickle with a fiery red chilli kick. A bold spoonful that turns a simple plate of rice into something worth slowing down for.
               </p>
-              <Button asChild size="lg" className="mt-5 sm:mt-7 rounded-full border-2 border-primary-foreground bg-primary-foreground text-primary font-bold text-xs uppercase tracking-wider shadow-xl hover:bg-transparent hover:text-primary-foreground px-6 sm:px-8 transition-all">
+              <Button asChild size="lg" className="mt-6 sm:mt-8 rounded-full border-2 border-primary-foreground bg-primary-foreground text-primary font-black text-xs sm:text-sm uppercase tracking-wider shadow-xl hover:bg-transparent hover:text-primary-foreground px-7 sm:px-9 h-12 sm:h-14 transition-all">
                 <Link to="/products">
-                  Meet the collection <ArrowUpRight size={14} />
+                  Meet the collection <ArrowUpRight size={16} strokeWidth={2.5} />
                 </Link>
               </Button>
+              <div className="mt-6 flex flex-col gap-1.5 border-t border-white/20 pt-3">
+                <span className="text-[11px] sm:text-xs font-semibold text-white/80">• Fiery Red Chilli Kick</span>
+                <span className="text-[11px] sm:text-xs font-semibold text-white/80">• Cold-Pressed Gingelly Oil</span>
+              </div>
             </div>
           </div>
         </section>

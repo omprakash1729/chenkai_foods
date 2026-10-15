@@ -115,19 +115,19 @@ function GLTFJar() {
 
     const mobileT = Math.max(0, Math.min(1, seg));
     const mobileEase = mobileT * mobileT * (3 - 2 * mobileT);
-    const mobileTx = (side * 0.82) + ((-side * 0.82) - (side * 0.82)) * mobileEase;
+    const mobileTx = (side * 0.78) + ((-side * 0.78) - (side * 0.78)) * mobileEase;
 
     const tx = mobile
       ? mobileTx
       : desktopTx;
 
     const ty = mobile
-      ? -mobileExitY
+      ? -state.viewport.height * 0.01 - mobileExitY
       : 0;
 
-    // Scale: mobile jar is compact and fades out only when scrolling into products
+    // Scale: mobile jar is prominent and fades out only when scrolling into products
     const s = mobile
-      ? state.viewport.height * 0.28 * Math.max(0, 1 - mobileExitEase)
+      ? state.viewport.height * 0.33 * Math.max(0, 1 - mobileExitEase)
       : state.viewport.height * (tablet ? 0.38 : 0.48) * (1 + Math.sin(p * Math.PI * 2) * 0.04);
 
     // CURSOR & TOUCH INTERACTION:
