@@ -104,25 +104,30 @@ function GLTFJar() {
     const desktopTx = a + (b - a) * e;
 
     // Mobile layout:
-    // 1. In Hero: jar sits on the RIGHT END (side * 0.82), leaving left 60% for title and CTA.
-    // 2. On scroll: jar smoothly exits upward and fades out so Section 01 and products are completely unobstructed.
-    const mobileExitProgress = mobile
-      ? Math.max(0, Math.min(1, progress.scrollY / (Math.max(1, state.size.height) * 0.42)))
+    // Index 0 (Hero): Jar on RIGHT (+side * 0.82), text on left
+    // Index 1 (Sec 01): Jar on LEFT (-side * 0.82), text on right
+    // Index 2 (Products): Smooth exit above screen so products are never obstructed
+    const mobileExit = mobile
+      ? Math.max(0, Math.min(1, (seg - 1.0) / 0.6))
       : 0;
-    const mobileExitEase = mobileExitProgress * mobileExitProgress * (3 - 2 * mobileExitProgress);
+    const mobileExitEase = mobileExit * mobileExit * (3 - 2 * mobileExit);
     const mobileExitY = mobileExitEase * state.viewport.height * 2.2;
 
+    const mobileT = Math.max(0, Math.min(1, seg));
+    const mobileEase = mobileT * mobileT * (3 - 2 * mobileT);
+    const mobileTx = (side * 0.82) + ((-side * 0.82) - (side * 0.82)) * mobileEase;
+
     const tx = mobile
-      ? side * 0.82 + Math.sin(state.clock.elapsedTime * 1.2) * 0.03
+      ? mobileTx
       : desktopTx;
 
     const ty = mobile
-      ? -state.viewport.height * 0.02 - mobileExitY + Math.cos(state.clock.elapsedTime * 1.5) * 0.025
+      ? -mobileExitY
       : 0;
 
-    // Scale: mobile jar is compact and fades out on scroll
+    // Scale: mobile jar is compact and fades out only when scrolling into products
     const s = mobile
-      ? state.viewport.height * 0.28 * Math.max(0, 1 - mobileExitEase * 0.9)
+      ? state.viewport.height * 0.28 * Math.max(0, 1 - mobileExitEase)
       : state.viewport.height * (tablet ? 0.38 : 0.48) * (1 + Math.sin(p * Math.PI * 2) * 0.04);
 
     // CURSOR & TOUCH INTERACTION:
@@ -137,7 +142,7 @@ function GLTFJar() {
     // FRONT PRAWN PICKLE LABEL ORIENTATION:
     const LABEL_FRONT_OFFSET = Math.PI * 1.55;
 
-    // SEAMLESS VERTICAL FLIP IN BETWEEN SECTIONS (Desktop):
+    // SEAMLESS VERTICAL FLIP IN BETWEEN SECTIONS:
     const u = Math.max(0, Math.min(1, (t - 0.15) / 0.7));
     const flipEase = u * u * u * (u * (u * 6 - 15) + 10);
     const verticalFlip = progress.reduced ? 0 : (i * Math.PI * 2) + (flipEase * Math.PI * 2);
@@ -150,9 +155,9 @@ function GLTFJar() {
     g.current.position.x += (tx - g.current.position.x) * k;
     g.current.position.y += (ty - g.current.position.y) * k;
 
-    const targetRotX = (mobile ? 0 : verticalFlip) + hoverTiltX + userDragX + (mobile ? mobileInteractive.rotX : 0);
-    const targetRotY = LABEL_FRONT_OFFSET + (mobile ? 0 : inBetweenSwayY) + hoverTiltY + userDragY + (mobile ? mobileInteractive.rotY : 0);
-    const targetRotZ = mobile ? 0 : inBetweenRollZ;
+    const targetRotX = verticalFlip + hoverTiltX + userDragX;
+    const targetRotY = LABEL_FRONT_OFFSET + inBetweenSwayY + hoverTiltY + userDragY;
+    const targetRotZ = inBetweenRollZ;
 
     g.current.rotation.x += (targetRotX - g.current.rotation.x) * k;
     g.current.rotation.y += (targetRotY - g.current.rotation.y) * k;

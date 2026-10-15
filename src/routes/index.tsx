@@ -64,25 +64,6 @@ function HomeInner() {
                 Find your flavour <ArrowUpRight />
               </Link>
             </Button>
-
-            {/* Mobile-only interactive 3D showcase micro-controls */}
-            <div className="flex sm:hidden items-center gap-2 mt-5">
-              <button
-                type="button"
-                onClick={() => window.dispatchEvent(new CustomEvent("chenkai-jar-flip"))}
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-red-50 hover:bg-red-100 text-[10px] font-black uppercase tracking-wider text-primary border border-red-200/80 active:scale-95 transition-all shadow-sm"
-              >
-                <span>🔄 360° Flip</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => window.dispatchEvent(new CustomEvent("chenkai-jar-spin"))}
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-zinc-100 hover:bg-zinc-200 text-[10px] font-black uppercase tracking-wider text-zinc-700 active:scale-95 transition-all shadow-sm"
-              >
-                <span>↔️ Spin</span>
-              </button>
-              <span className="text-[9px] text-muted-foreground font-semibold">Touch to rotate</span>
-            </div>
           </div>
           <div className="relative z-30 mx-auto flex w-full max-w-7xl justify-between border-t border-border/20 pt-4 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
             <span>Pickles / Thokku / Preserves</span>
@@ -91,19 +72,19 @@ function HomeInner() {
         </section>
 
         {/* Section 01: The signature jar (Clean Red Background matching OrderBand) */}
-        <section id="sec-signature" className="relative z-10 min-h-[85svh] bg-gradient-to-br from-red-950 via-primary to-black px-5 py-20 text-primary-foreground md:px-8 md:py-32 border-y border-primary/20 shadow-2xl overflow-hidden">
-          <div className="relative z-30 mx-auto grid max-w-7xl md:grid-cols-2 gap-10 items-center">
+        <section id="sec-signature" className="relative z-10 min-h-[75svh] sm:min-h-[85svh] bg-gradient-to-br from-red-950 via-primary to-black px-5 py-14 text-primary-foreground md:px-8 md:py-32 border-y border-primary/20 shadow-2xl overflow-hidden flex flex-col justify-center">
+          <div className="relative z-30 mx-auto grid max-w-7xl md:grid-cols-2 gap-6 md:gap-10 items-center w-full">
             <div className="hidden md:block" />
-            <div>
+            <div className="max-w-[62%] ml-auto md:max-w-none md:ml-0">
               <p className="eyebrow text-primary-foreground/90 font-bold tracking-[0.25em]">01 / The signature jar</p>
-              <h2 className="mt-4 font-display text-4xl uppercase leading-tight md:text-6xl text-white">
+              <h2 className="mt-3 sm:mt-4 font-display text-3xl sm:text-4xl uppercase leading-tight md:text-6xl text-white">
                 Small jar.<br />
                 Big <span className="text-white drop-shadow">personality.</span>
               </h2>
-              <p className="mt-6 max-w-md text-sm leading-relaxed text-primary-foreground/90 md:text-base font-normal">
+              <p className="mt-3 sm:mt-6 max-w-md text-xs sm:text-sm leading-relaxed text-primary-foreground/90 md:text-base font-normal">
                 Prawn pickle with a fiery red chilli kick. A bold spoonful that turns a simple plate of rice into something worth slowing down for.
               </p>
-              <Button asChild size="lg" className="mt-7 rounded-full border-2 border-primary-foreground bg-primary-foreground text-primary font-bold text-xs uppercase tracking-wider shadow-xl hover:bg-transparent hover:text-primary-foreground px-8 transition-all">
+              <Button asChild size="lg" className="mt-5 sm:mt-7 rounded-full border-2 border-primary-foreground bg-primary-foreground text-primary font-bold text-xs uppercase tracking-wider shadow-xl hover:bg-transparent hover:text-primary-foreground px-6 sm:px-8 transition-all">
                 <Link to="/products">
                   Meet the collection <ArrowUpRight size={14} />
                 </Link>
@@ -140,7 +121,7 @@ function HomeInner() {
                 <span className="font-display text-xs uppercase tracking-[0.3em] text-primary font-bold">Seafood Pickles</span>
                 <div className="flex-1 h-px bg-border/40" />
               </div>
-              <div className="grid gap-3.5 sm:gap-7 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-2 gap-3 sm:gap-7 lg:grid-cols-3">
                 {products.filter((p) => p.category === "Pickles").map((p) => (
                   <ProductCard key={p.id} product={p} />
                 ))}
@@ -153,7 +134,7 @@ function HomeInner() {
                 <span className="font-display text-xs uppercase tracking-[0.3em] text-primary font-bold">Premium Dry Fish</span>
                 <div className="flex-1 h-px bg-border/40" />
               </div>
-              <div className="grid gap-3.5 sm:gap-7 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-2 gap-3 sm:gap-7 lg:grid-cols-3">
                 {products.filter((p) => p.category === "Dry Fish").map((p) => (
                   <ProductCard key={p.id} product={p} />
                 ))}

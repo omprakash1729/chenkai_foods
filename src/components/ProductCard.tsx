@@ -23,91 +23,79 @@ export function ProductCard({ product }: { product: Product }) {
 
   return (
     <>
-      {/* ── Mobile Swiggy-Style Compact Row Card (< sm) ─────────────── */}
-      <article className="flex sm:hidden relative items-center justify-between gap-3 p-3.5 rounded-3xl bg-card border border-border/50 shadow-sm hover:shadow-md transition-all">
-        {/* Left: Product Information */}
-        <div className="flex-1 min-w-0 pr-1">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-primary">
-            {product.subtitle}
+      {/* ── Mobile 2-Column Swiggy Instamart / Blinkit Style Card (< sm) ── */}
+      <article className="flex sm:hidden relative flex-col justify-between rounded-2xl bg-white border border-zinc-200/90 shadow-sm p-2.5 transition-all">
+        {/* Top: Square Product Image */}
+        <div className="relative aspect-square w-full rounded-xl overflow-hidden bg-zinc-50 border border-zinc-100">
+          <img
+            src={product.image}
+            alt={product.imageAlt ?? product.name}
+            className="w-full h-full object-cover"
+            loading="lazy"
+          />
+          {/* Subtle category badge */}
+          <span className="absolute top-1.5 left-1.5 rounded-full bg-black/75 backdrop-blur-xs px-2 py-0.5 text-[8.5px] font-bold uppercase tracking-wider text-white">
+            {product.category === "Pickles" ? "Pickle" : "Dry Fish"}
           </span>
-          <h3 className="font-display text-sm font-bold uppercase tracking-wide text-foreground mt-0.5 leading-snug">
-            {product.name}
-          </h3>
-          <div className="mt-1 flex items-center gap-1.5">
-            <span className="font-display text-xs font-black text-foreground">
-              {product.price}
-            </span>
-            {product.weight && (
-              <span className="text-[9px] font-bold text-muted-foreground uppercase">
-                · {product.weight}
-              </span>
-            )}
-          </div>
-          <p className="mt-1 text-[11px] text-muted-foreground line-clamp-2 leading-relaxed">
-            {product.desc}
-          </p>
-          {product.ingredients && product.ingredients.length > 0 && (
-            <div className="mt-1.5 flex flex-wrap gap-1">
-              {product.ingredients.slice(0, 2).map((ing) => (
-                <span
-                  key={ing}
-                  className="rounded-full bg-muted/60 px-2 py-0.5 text-[8.5px] font-medium text-muted-foreground"
-                >
-                  {ing}
-                </span>
-              ))}
-            </div>
-          )}
         </div>
 
-        {/* Right: Square image with Swiggy-style floating ADD button */}
-        <div className="relative shrink-0 flex flex-col items-center">
-          <div className="w-24 h-24 rounded-2xl overflow-hidden border border-border/30 bg-muted/20 shadow-sm">
-            <img
-              src={product.image}
-              alt={product.imageAlt ?? product.name}
-              className="w-full h-full object-cover"
-              loading="lazy"
-            />
-          </div>
-
-          {/* Floating Swiggy-style Add button / Qty stepper */}
-          <div className="absolute -bottom-3 inset-x-1.5">
-            {qty === 0 ? (
-              <button
-                id={`add-to-cart-mob-${product.id}`}
-                onClick={handleAdd}
-                className="w-full h-7 flex items-center justify-center gap-1 rounded-full bg-primary hover:bg-red-700 text-white font-black text-[10.5px] uppercase tracking-wider shadow-md shadow-primary/30 transition-all active:scale-95 border-2 border-white"
-                aria-label={`Add ${product.name} to cart`}
-              >
-                <Plus size={12} strokeWidth={3} />
-                <span>ADD</span>
-              </button>
-            ) : (
-              <div
-                className={`w-full h-7 flex items-center justify-between rounded-full bg-primary text-white shadow-md shadow-primary/30 border-2 border-white px-1 transition-transform duration-200 ${pulse ? "scale-105" : "scale-100"}`}
-              >
-                <button
-                  onClick={() => decrement(product.id)}
-                  aria-label="Remove one"
-                  className="w-5 h-5 flex items-center justify-center text-white hover:bg-red-700 rounded-full"
-                >
-                  <Minus size={11} strokeWidth={3} />
-                </button>
-                <span className="text-[11px] font-black">{qty}</span>
-                <button
-                  onClick={() => {
-                    increment(product.id);
-                    setPulse(true);
-                  }}
-                  aria-label="Add one more"
-                  className="w-5 h-5 flex items-center justify-center text-white hover:bg-red-700 rounded-full"
-                >
-                  <Plus size={11} strokeWidth={3} />
-                </button>
-              </div>
+        {/* Middle: Details */}
+        <div className="flex-1 flex flex-col justify-between mt-2 min-h-[56px]">
+          <div>
+            <h3 className="font-bold text-xs text-zinc-900 leading-snug line-clamp-2">
+              {product.name}
+            </h3>
+            {product.weight && (
+              <p className="text-[10px] text-zinc-500 font-semibold mt-0.5">
+                {product.weight}
+              </p>
             )}
           </div>
+          <div className="mt-1.5 flex items-center justify-between">
+            <span className="font-black text-xs text-zinc-900">
+              {product.price}
+            </span>
+          </div>
+        </div>
+
+        {/* Bottom: Perfectly Symmetrical Swiggy Instamart Button */}
+        <div className="mt-2.5 w-full">
+          {qty === 0 ? (
+            <button
+              id={`add-to-cart-mob-${product.id}`}
+              onClick={handleAdd}
+              className="w-full h-8 flex items-center justify-center gap-1.5 rounded-xl bg-primary hover:bg-red-700 active:scale-95 text-white font-black text-xs uppercase tracking-wider shadow-sm transition-all border-none cursor-pointer"
+              aria-label={`Add ${product.name} to cart`}
+            >
+              <Plus size={13} strokeWidth={3} />
+              <span>ADD</span>
+            </button>
+          ) : (
+            <div
+              className={`w-full h-8 flex items-center justify-between rounded-xl bg-primary text-white shadow-sm overflow-hidden transition-transform duration-200 ${pulse ? "scale-105" : "scale-100"}`}
+            >
+              <button
+                onClick={() => decrement(product.id)}
+                aria-label="Decrease quantity"
+                className="w-8 h-full flex items-center justify-center text-white hover:bg-red-700 active:scale-90 transition-all cursor-pointer"
+              >
+                <Minus size={13} strokeWidth={3} />
+              </button>
+              <span className="flex-1 text-center font-black text-xs leading-none select-none">
+                {qty}
+              </span>
+              <button
+                onClick={() => {
+                  increment(product.id);
+                  setPulse(true);
+                }}
+                aria-label="Increase quantity"
+                className="w-8 h-full flex items-center justify-center text-white hover:bg-red-700 active:scale-90 transition-all cursor-pointer"
+              >
+                <Plus size={13} strokeWidth={3} />
+              </button>
+            </div>
+          )}
         </div>
       </article>
 

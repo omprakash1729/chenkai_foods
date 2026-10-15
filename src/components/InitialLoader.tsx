@@ -50,24 +50,33 @@ export function InitialLoader() {
     // Initial check
     checkSiteReady();
 
-    // Smooth visual progress ticker while waiting (gradually climbs to 90% while downloading assets)
+    // Safety Fallback Timeout: NEVER hang the user! Maximum 2.2s on mobile, 3s on desktop!
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+    const fallbackTimer = setTimeout(() => {
+      setSiteLoaded(true);
+      setVideoPlayedOnce(true);
+    }, isMobile ? 1800 : 2800);
+
+    // Fast visual progress ticker: smoothly reaches 100% without getting stuck
     const ticker = setInterval(() => {
       setProgress((prev) => {
-        if (prev < 50) return prev + 2.5;
-        if (prev < 80) return prev + 1.2;
-        if (prev < 90) return prev + 0.4;
-        return 90; // Stays at 90% until BOTH video has played once AND site is fully loaded!
+        if (prev < 60) return prev + (isMobile ? 6 : 4);
+        if (prev < 85) return prev + (isMobile ? 4 : 2.5);
+        if (prev < 95) return prev + 1.5;
+        if (prev < 100) return prev + 0.5;
+        return 100;
       });
-    }, 150);
+    }, 80);
 
     return () => {
       clearInterval(ticker);
+      clearTimeout(fallbackTimer);
       window.removeEventListener("load", handleWindowLoad);
       window.removeEventListener("chenkai-glb-loaded", handleGlbLoaded);
     };
   }, []);
 
-  // When BOTH video has played through at least once AND the site is fully loaded:
+  // When BOTH video has played through at least once AND the site is fully loaded (or fallback expired):
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined;
     if (videoPlayedOnce && siteLoaded) {
@@ -76,8 +85,8 @@ export function InitialLoader() {
         setFading(true);
         setTimeout(() => {
           setVisible(false);
-        }, 500);
-      }, 350);
+        }, 400);
+      }, 250);
     }
     return () => {
       if (timer) clearTimeout(timer);
@@ -85,10 +94,8 @@ export function InitialLoader() {
   }, [videoPlayedOnce, siteLoaded]);
 
   // Video playback tracking:
-  // Detects when the video completes at least 1 full playthrough:
   const handleTimeUpdate = () => {
     if (videoRef.current && videoRef.current.duration) {
-      // If current time reached within 0.3s of video end or duration
       if (videoRef.current.currentTime >= videoRef.current.duration - 0.3) {
         setVideoPlayedOnce(true);
       }
@@ -97,11 +104,16 @@ export function InitialLoader() {
 
   const handleEnded = () => {
     setVideoPlayedOnce(true);
-    // If the site is still not ready, the video repeats, repeats, and repeats!
     if (!siteLoaded && videoRef.current) {
       videoRef.current.currentTime = 0;
       videoRef.current.play().catch(() => {});
     }
+  };
+
+  const handleError = () => {
+    // If video fails on mobile/low-power mode, immediately unlock
+    setVideoPlayedOnce(true);
+    setSiteLoaded(true);
   };
 
   if (!visible) return null;
@@ -126,6 +138,7 @@ export function InitialLoader() {
           loop={!siteLoaded} // Keep repeating and looping until site is completely loaded!
           onTimeUpdate={handleTimeUpdate}
           onEnded={handleEnded}
+          onError={handleError}
           className="w-full h-auto object-cover"
           style={{
             WebkitMaskImage: "radial-gradient(circle at center, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 72%)",

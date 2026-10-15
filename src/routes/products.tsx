@@ -95,8 +95,8 @@ function ProductsInner() {
           </span>
         </div>
 
-        {/* Product Grid */}
-        <div className="grid gap-3.5 sm:gap-x-6 sm:gap-y-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Product Grid — Swiggy/Blinkit/Zepto 2-column layout on mobile */}
+        <div className="grid grid-cols-2 gap-3 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-3">
           {displayedProducts.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}
