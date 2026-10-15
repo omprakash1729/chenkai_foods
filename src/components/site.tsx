@@ -17,19 +17,19 @@ export function Nav() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-40 border-b border-border/20 bg-white/95 backdrop-blur-md shadow-sm">
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-6 md:px-8">
-        {/* Standalone Logo & Brand Title - Clean, Frameless Transparent Emblem */}
-        <Link to="/" aria-label="Chenkai Foods Home" className="group flex items-center gap-3">
+      <div className="mx-auto flex h-16 sm:h-20 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 md:px-8">
+        {/* Logo: On mobile only the bird logo is shown cleanly */}
+        <Link to="/" aria-label="Chenkai Foods Home" className="group flex items-center gap-2.5 shrink-0">
           <img
             src="/logo-transparent.png"
             alt="Chenkai Foods Logo"
-            className="h-14 md:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+            className="h-11 sm:h-14 md:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
           />
-          <div className="flex flex-col">
-            <span className="font-display text-2xl uppercase tracking-wider text-foreground">
+          <div className="hidden sm:flex flex-col">
+            <span className="font-display text-xl md:text-2xl uppercase tracking-wider text-foreground">
               CHENKAI<span className="text-primary">.</span>FOODS
             </span>
-            <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground group-hover:text-primary transition-colors">
+            <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground group-hover:text-primary transition-colors">
               The Science of Tradition
             </span>
           </div>
@@ -50,40 +50,73 @@ export function Nav() {
           ))}
         </nav>
 
-        {/* Action Button & Mobile Toggle */}
-        <div className="flex items-center gap-3">
-          <Button asChild className="rounded-full shadow-lg glow-hover font-bold text-xs uppercase tracking-wider px-5">
+        {/* Action Button & Mobile Hamburger Toggle */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          <Button asChild className="rounded-full shadow-md font-bold text-xs uppercase tracking-wider px-3.5 py-1.5 sm:px-5 sm:py-2 h-9 sm:h-10">
             <a href={waLink("Hi Chenkai Foods, I'd like to place an enquiry / order.")} target="_blank" rel="noreferrer">
-              <MessageCircle size={15} /> Book on WhatsApp <ArrowUpRight size={14} />
+              <MessageCircle size={14} />
+              <span className="hidden sm:inline">Book on WhatsApp</span>
+              <span className="sm:hidden font-black">Book</span>
+              <ArrowUpRight size={13} className="hidden sm:inline" />
             </a>
           </Button>
+
+          {/* Hamburger Menu Toggle on Mobile */}
           <Button
             variant="ghost"
             size="icon"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             onClick={() => setOpen(!open)}
-            className="md:hidden"
+            className="md:hidden w-9 h-9 rounded-full text-foreground hover:bg-zinc-100"
           >
-            {open ? <X /> : <Menu />}
+            {open ? <X size={18} /> : <Menu size={18} />}
           </Button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Drawer Menu */}
       {open && (
-        <nav aria-label="Mobile navigation" className="flex flex-col border-t border-border/20 bg-background px-6 py-6 md:hidden shadow-2xl">
-          {links.map((l) => (
-            <Link
-              key={l.to}
-              to={l.to}
-              onClick={() => setOpen(false)}
-              className="py-3.5 text-sm font-bold uppercase tracking-wider border-b border-border/10 hover:text-primary"
-            >
-              {l.label}
-            </Link>
-          ))}
-        </nav>
+        <>
+          <div
+            className="fixed inset-0 top-16 sm:top-20 z-30 bg-black/40 backdrop-blur-sm md:hidden"
+            onClick={() => setOpen(false)}
+            aria-hidden="true"
+          />
+          <nav
+            aria-label="Mobile navigation"
+            className="relative z-40 flex flex-col border-t border-border/20 bg-white/98 backdrop-blur-xl px-6 py-5 md:hidden shadow-2xl animate-in slide-in-from-top-2 duration-200"
+          >
+            <div className="flex flex-col divide-y divide-border/10">
+              {links.map((l) => (
+                <Link
+                  key={l.to}
+                  to={l.to}
+                  onClick={() => setOpen(false)}
+                  activeProps={{ className: "text-primary font-black" }}
+                  activeOptions={{ exact: true }}
+                  className="py-3.5 text-sm font-bold uppercase tracking-wider text-foreground hover:text-primary transition-colors flex items-center justify-between"
+                >
+                  <span>{l.label}</span>
+                  <ArrowUpRight size={14} className="text-muted-foreground" />
+                </Link>
+              ))}
+            </div>
+
+            <div className="pt-4 mt-2 border-t border-border/20">
+              <a
+                href={waLink("Hi Chenkai Foods, I'd like to place an order.")}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => setOpen(false)}
+                className="w-full flex items-center justify-center gap-2 rounded-full bg-primary text-white font-bold text-xs uppercase tracking-wider py-3 shadow-md"
+              >
+                <MessageCircle size={15} />
+                <span>Order on WhatsApp</span>
+              </a>
+            </div>
+          </nav>
+        </>
       )}
     </header>
   );

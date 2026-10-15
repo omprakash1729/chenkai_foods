@@ -8,6 +8,7 @@ import {
   ChevronUp,
   ChevronDown,
 } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { useCart } from "@/lib/cart";
 import { waLink } from "@/lib/whatsapp";
 import { useState, useEffect } from "react";
@@ -176,6 +177,19 @@ export function CartBar() {
                 </li>
               ))}
             </ul>
+
+            {/* Add More Products button — leads to /products */}
+            <div className="mx-4 my-2 p-3 rounded-2xl bg-zinc-50 border border-zinc-100 flex items-center justify-between">
+              <span className="text-xs font-bold text-zinc-700">Missed anything?</span>
+              <Link
+                to="/products"
+                onClick={() => setOpen(false)}
+                className="inline-flex items-center gap-1.5 text-xs font-black text-primary hover:text-red-700 bg-white border border-red-200/80 hover:bg-red-50 px-3.5 py-1.5 rounded-full shadow-sm transition-all"
+              >
+                <Plus size={13} strokeWidth={3} />
+                <span>Add More</span>
+              </Link>
+            </div>
 
             {/* WhatsApp CTA */}
             <div className="px-4 pb-4 pt-2">

@@ -48,22 +48,41 @@ function HomeInner() {
         <JarScene />
 
         {/* Hero Section */}
-        <section id="sec-hero" className="relative z-10 min-h-[90svh] px-5 pb-12 pt-28 md:px-8 md:pt-44 flex flex-col justify-between">
+        <section id="sec-hero" className="relative z-10 min-h-[90svh] px-5 pb-12 pt-24 sm:pt-28 md:px-8 md:pt-44 flex flex-col justify-between">
           <div className="relative z-30 mx-auto max-w-7xl w-full">
             <p className="eyebrow text-primary">South Indian soul. Unmistakable flavour.</p>
-            <h1 className="mt-4 font-display text-4xl uppercase leading-[1.02] sm:text-5xl md:text-7xl lg:text-8xl max-w-[60%] sm:max-w-none">
+            <h1 className="mt-3 sm:mt-4 font-display text-4xl uppercase leading-[1.02] sm:text-5xl md:text-7xl lg:text-8xl max-w-[58%] sm:max-w-none">
               Chenkai<br />
               <span className="text-primary">Food.</span>
             </h1>
-            <p className="mt-4 max-w-[55%] sm:max-w-64 text-sm leading-relaxed text-muted-foreground md:max-w-80 md:text-base">
+            <p className="mt-3 sm:mt-4 max-w-[55%] sm:max-w-64 text-xs sm:text-sm leading-relaxed text-muted-foreground md:max-w-80 md:text-base">
               A little heat. A little tang.<br />
               A whole lot of home in every jar.
             </p>
-            <Button asChild size="lg" className="relative mt-6 rounded-full shadow-lg glow-hover font-bold text-xs uppercase tracking-wider px-8 h-12">
+            <Button asChild size="lg" className="relative mt-5 sm:mt-6 rounded-full shadow-lg glow-hover font-bold text-xs uppercase tracking-wider px-6 sm:px-8 h-11 sm:h-12">
               <Link to="/products">
                 Find your flavour <ArrowUpRight />
               </Link>
             </Button>
+
+            {/* Mobile-only interactive 3D showcase micro-controls */}
+            <div className="flex sm:hidden items-center gap-2 mt-5">
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new CustomEvent("chenkai-jar-flip"))}
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-red-50 hover:bg-red-100 text-[10px] font-black uppercase tracking-wider text-primary border border-red-200/80 active:scale-95 transition-all shadow-sm"
+              >
+                <span>🔄 360° Flip</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new CustomEvent("chenkai-jar-spin"))}
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-zinc-100 hover:bg-zinc-200 text-[10px] font-black uppercase tracking-wider text-zinc-700 active:scale-95 transition-all shadow-sm"
+              >
+                <span>↔️ Spin</span>
+              </button>
+              <span className="text-[9px] text-muted-foreground font-semibold">Touch to rotate</span>
+            </div>
           </div>
           <div className="relative z-30 mx-auto flex w-full max-w-7xl justify-between border-t border-border/20 pt-4 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
             <span>Pickles / Thokku / Preserves</span>
@@ -121,7 +140,7 @@ function HomeInner() {
                 <span className="font-display text-xs uppercase tracking-[0.3em] text-primary font-bold">Seafood Pickles</span>
                 <div className="flex-1 h-px bg-border/40" />
               </div>
-              <div className="grid gap-6 sm:gap-7 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-3.5 sm:gap-7 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {products.filter((p) => p.category === "Pickles").map((p) => (
                   <ProductCard key={p.id} product={p} />
                 ))}
@@ -134,7 +153,7 @@ function HomeInner() {
                 <span className="font-display text-xs uppercase tracking-[0.3em] text-primary font-bold">Premium Dry Fish</span>
                 <div className="flex-1 h-px bg-border/40" />
               </div>
-              <div className="grid gap-6 sm:gap-7 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-3.5 sm:gap-7 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {products.filter((p) => p.category === "Dry Fish").map((p) => (
                   <ProductCard key={p.id} product={p} />
                 ))}

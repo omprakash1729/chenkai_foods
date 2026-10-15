@@ -96,7 +96,7 @@ function ProductsInner() {
         </div>
 
         {/* Product Grid */}
-        <div className="grid gap-x-6 gap-y-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-3.5 sm:gap-x-6 sm:gap-y-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {displayedProducts.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}

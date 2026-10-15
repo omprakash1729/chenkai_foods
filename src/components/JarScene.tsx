@@ -13,7 +13,7 @@ const SECTION_IDS = [
   "sec-orderband",
 ];
 
-const progress = { v: 0, seg: 0, reduced: false };
+const progress = { v: 0, seg: 0, scrollY: 0, reduced: false };
 const cursor = {
   hoverX: 0,
   hoverY: 0,
@@ -22,6 +22,13 @@ const cursor = {
   isDragging: false,
   lastX: 0,
   lastY: 0,
+};
+
+const mobileInteractive = {
+  rotX: 0,
+  rotY: 0,
+  targetRotX: 0,
+  targetRotY: 0,
 };
 
 const LOCAL_GLB_URL = "/models/chenkai-jar.glb";
@@ -48,12 +55,31 @@ function GLTFJar() {
     }
   }, [scene]);
 
+  useEffect(() => {
+    const onFlip = () => {
+      mobileInteractive.targetRotX += Math.PI * 2;
+    };
+    const onSpin = () => {
+      mobileInteractive.targetRotY += Math.PI * 2;
+    };
+    window.addEventListener("chenkai-jar-flip", onFlip);
+    window.addEventListener("chenkai-jar-spin", onSpin);
+    return () => {
+      window.removeEventListener("chenkai-jar-flip", onFlip);
+      window.removeEventListener("chenkai-jar-spin", onSpin);
+    };
+  }, []);
+
   useFrame((state, raw) => {
     const dt = Math.min(raw, 0.033);
     const p = progress.reduced ? 0 : progress.v;
     const mobile = state.size.width < 768;
     const tablet = state.size.width >= 768 && state.size.width < 1024;
-    const side = state.viewport.width * (tablet ? 0.2 : 0.25);
+    const side = state.viewport.width * (mobile ? 0.28 : tablet ? 0.2 : 0.25);
+
+    // Smoothly ease mobile interactive rotations
+    mobileInteractive.rotX += (mobileInteractive.targetRotX - mobileInteractive.rotX) * Math.min(1, 10 * dt);
+    mobileInteractive.rotY += (mobileInteractive.targetRotY - mobileInteractive.rotY) * Math.min(1, 10 * dt);
 
     // xs positions corresponding to:
     // 0: sec-hero -> RIGHT
@@ -63,38 +89,43 @@ function GLTFJar() {
     // 4: sec-chenkai-way -> LEFT (user requirement: 04 chenkai way jar goes left)
     // 5: sec-orderband -> RIGHT (order band CTA)
     // 6: beyond -> RIGHT
-    const xs = mobile
-      ? [0, 0, 0, 0, 0, 0, 0]
-      : tablet
-        ? [side * 0.9, -side * 0.9, side * 0.8, side * 0.82, -side * 0.85, side * 0.4, side * 0.4]
-        : [side * 0.95, -side * 0.95, side * 0.85, side * 0.88, -side * 0.92, side * 0.45, side * 0.45];
+    const xs = tablet
+      ? [side * 0.9, -side * 0.9, side * 0.8, side * 0.82, -side * 0.85, side * 0.4, side * 0.4]
+      : [side * 0.95, -side * 0.95, side * 0.85, side * 0.88, -side * 0.92, side * 0.45, side * 0.45];
 
     const seg = Math.min(Math.max(0, progress.seg), 5.999);
     const i = Math.min(Math.floor(seg), 5);
     const t = seg - i; // progress in between section i and section i+1 (0 to 1)
 
-    // Smooth horizontal position interpolation
+    // Smooth horizontal position interpolation for desktop/tablet
     const e = t * t * (3 - 2 * t);
     const a = xs[i] ?? 0;
     const b = xs[i + 1] ?? a;
-    const tx = a + (b - a) * e;
+    const desktopTx = a + (b - a) * e;
 
-    // On mobile: jar sits bottom-right of hero, then slides OUT OF FRAME below when scrolled.
-    // This prevents it from overlapping the products section.
-    const mobileVisibleUntil = 0.18; // fraction of total scroll where jar should leave on mobile
-    const mobileExitProgress = mobile ? Math.max(0, (p - mobileVisibleUntil) / 0.08) : 0;
-    const mobileExitY = mobile ? mobileExitProgress * state.viewport.height * 2.5 : 0;
+    // Mobile layout:
+    // 1. In Hero: jar sits on the RIGHT END (side * 0.82), leaving left 60% for title and CTA.
+    // 2. On scroll: jar smoothly exits upward and fades out so Section 01 and products are completely unobstructed.
+    const mobileExitProgress = mobile
+      ? Math.max(0, Math.min(1, progress.scrollY / (Math.max(1, state.size.height) * 0.42)))
+      : 0;
+    const mobileExitEase = mobileExitProgress * mobileExitProgress * (3 - 2 * mobileExitProgress);
+    const mobileExitY = mobileExitEase * state.viewport.height * 2.2;
+
+    const tx = mobile
+      ? side * 0.82 + Math.sin(state.clock.elapsedTime * 1.2) * 0.03
+      : desktopTx;
 
     const ty = mobile
-      ? -state.viewport.height * 0.18 - mobileExitY
+      ? -state.viewport.height * 0.02 - mobileExitY + Math.cos(state.clock.elapsedTime * 1.5) * 0.025
       : 0;
 
-    // Scale: mobile jar is smaller and a bit more compact
-    const s = state.viewport.height *
-      (mobile ? 0.22 : tablet ? 0.38 : 0.48) *
-      (1 + Math.sin(p * Math.PI * 2) * 0.04);
+    // Scale: mobile jar is compact and fades out on scroll
+    const s = mobile
+      ? state.viewport.height * 0.28 * Math.max(0, 1 - mobileExitEase * 0.9)
+      : state.viewport.height * (tablet ? 0.38 : 0.48) * (1 + Math.sin(p * Math.PI * 2) * 0.04);
 
-    // CURSOR INTERACTION:
+    // CURSOR & TOUCH INTERACTION:
     // 1. Reactive hover tilt tracking across viewport
     const hoverTiltX = -cursor.hoverY * 0.45;
     const hoverTiltY = cursor.hoverX * 0.75;
@@ -106,7 +137,7 @@ function GLTFJar() {
     // FRONT PRAWN PICKLE LABEL ORIENTATION:
     const LABEL_FRONT_OFFSET = Math.PI * 1.55;
 
-    // SEAMLESS VERTICAL FLIP IN BETWEEN SECTIONS:
+    // SEAMLESS VERTICAL FLIP IN BETWEEN SECTIONS (Desktop):
     const u = Math.max(0, Math.min(1, (t - 0.15) / 0.7));
     const flipEase = u * u * u * (u * (u * 6 - 15) + 10);
     const verticalFlip = progress.reduced ? 0 : (i * Math.PI * 2) + (flipEase * Math.PI * 2);
@@ -119,9 +150,9 @@ function GLTFJar() {
     g.current.position.x += (tx - g.current.position.x) * k;
     g.current.position.y += (ty - g.current.position.y) * k;
 
-    const targetRotX = verticalFlip + hoverTiltX + userDragX;
-    const targetRotY = LABEL_FRONT_OFFSET + inBetweenSwayY + hoverTiltY + userDragY;
-    const targetRotZ = inBetweenRollZ;
+    const targetRotX = (mobile ? 0 : verticalFlip) + hoverTiltX + userDragX + (mobile ? mobileInteractive.rotX : 0);
+    const targetRotY = LABEL_FRONT_OFFSET + (mobile ? 0 : inBetweenSwayY) + hoverTiltY + userDragY + (mobile ? mobileInteractive.rotY : 0);
+    const targetRotZ = mobile ? 0 : inBetweenRollZ;
 
     g.current.rotation.x += (targetRotX - g.current.rotation.x) * k;
     g.current.rotation.y += (targetRotY - g.current.rotation.y) * k;
@@ -184,6 +215,7 @@ export function JarScene() {
           }
 
           progress.seg = seg;
+          progress.scrollY = scrollY;
 
           const section = document.getElementById("jar-story");
           if (section) {
