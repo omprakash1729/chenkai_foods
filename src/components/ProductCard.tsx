@@ -127,7 +127,7 @@ export function ProductCard({ product }: { product: Product }) {
               {product.name}
             </h3>
             <span className="rounded-full bg-white/20 backdrop-blur-md border border-white/30 px-3 py-0.5 text-sm font-display font-bold text-white shadow-md shrink-0 mb-0.5">
-              {product.price}
+              {product.price} <span className="text-[11px] font-sans font-normal opacity-90">/ {product.weight}</span>
             </span>
           </div>
 

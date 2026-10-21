@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Nav, Footer, OrderBand, TrustBadges } from "@/components/site";
+import { Nav, Footer, OrderBand, TrustBadges, BulkPreOrderScroller } from "@/components/site";
 import { products, type ProductCategory } from "@/lib/products";
 import { ProductCard } from "@/components/ProductCard";
 import { CartBar } from "@/components/CartBar";
@@ -15,7 +15,7 @@ export const Route = createFileRoute("/products")({
       {
         name: "description",
         content:
-          "Explore Chenkai Foods' collection: Prawn Pickle, Crab Pickle, Fish Pickle, Solar-Dried Anchovies, Vanjaram Seer Fish, Baby Prawns and more. 100% natural, 0% artificial preservatives.",
+          "Explore Chenkai Foods' collection: Prawn Pickle, Crab Pickle, Fish Pickle, Maasi Karuvadu (Dry Tuna Powder), Dry Spiny Loach, Salted Prawns, Unsalted Baby Prawns, Solar-Dried Nethili, Normal Dry Nethili, and Dry Fish Vanjaram. In collaboration with TNJFU.",
       },
       { property: "og:title", content: "Seafood Collection — Chenkai Foods" },
       {
@@ -70,8 +70,13 @@ function ProductsInner() {
           </div>
         </div>
 
+        {/* Bulk Pre-Order Marquee */}
+        <div className="mt-8 rounded-2xl overflow-hidden shadow-md">
+          <BulkPreOrderScroller theme="red" />
+        </div>
+
         {/* Filter Navigation Bar */}
-        <div className="mb-10 mt-10 flex flex-wrap items-center justify-between gap-4 rounded-3xl glass-panel p-4 border border-border/30">
+        <div className="mb-10 mt-6 flex flex-wrap items-center justify-between gap-4 rounded-3xl glass-panel p-4 border border-border/30">
           <div className="flex flex-wrap items-center gap-2" aria-label="Filter products by category">
             <span className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-muted-foreground mr-2 pl-2">
               <Filter size={14} /> Category:

@@ -1,8 +1,7 @@
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Center, Environment, Lightformer, useGLTF, ContactShadows } from "@react-three/drei";
-import { createElement, Suspense, useEffect, useRef, useMemo } from "react";
+import { Center, Environment, Lightformer, useGLTF } from "@react-three/drei";
+import { createElement, Suspense, useEffect, useRef, useMemo, useState } from "react";
 import * as THREE from "three";
-
 
 const SECTION_IDS = [
   "sec-hero",
@@ -40,13 +39,41 @@ try {
   // Silent catch
 }
 
+function createSoftShadowTexture() {
+  if (typeof document === "undefined") return null;
+  const canvas = document.createElement("canvas");
+  canvas.width = 256;
+  canvas.height = 256;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return null;
+
+  const gradient = ctx.createRadialGradient(128, 128, 0, 128, 128, 128);
+  gradient.addColorStop(0, "rgba(0, 0, 0, 0.72)"); // deep contact dark center directly under jar
+  gradient.addColorStop(0.35, "rgba(12, 6, 6, 0.55)"); // jar base rim boundary
+  gradient.addColorStop(0.60, "rgba(22, 10, 10, 0.25)"); // soft inner penumbra
+  gradient.addColorStop(0.85, "rgba(28, 14, 14, 0.07)"); // ambient feather
+  gradient.addColorStop(1, "rgba(0, 0, 0, 0)"); // seamless edge
+
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, 256, 256);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.needsUpdate = true;
+  return texture;
+}
+
 function GLTFJar() {
   const { scene } = useGLTF(LOCAL_GLB_URL);
   const modelScale = useMemo(() => {
     const size = new THREE.Box3().setFromObject(scene).getSize(new THREE.Vector3());
     return size.y > 0 ? 1 / size.y : 1;
   }, [scene]);
+
   const g = useRef<THREE.Group>(null);
+  const shadowRef = useRef<THREE.Group>(null);
+  const shadowMatRef = useRef<THREE.MeshBasicMaterial>(null);
+  const shadowTexture = useMemo(() => createSoftShadowTexture(), []);
+  const initialPlacedRef = useRef(false);
 
   useEffect(() => {
     if (scene) {
@@ -85,8 +112,8 @@ function GLTFJar() {
     // 0: sec-hero -> RIGHT
     // 1: sec-signature -> LEFT
     // 2: sec-collection -> RIGHT
-    // 3: sec-table -> RIGHT (user requirement: at your table jar goes right)
-    // 4: sec-chenkai-way -> LEFT (user requirement: 04 chenkai way jar goes left)
+    // 3: sec-table -> RIGHT (at your table jar goes right)
+    // 4: sec-chenkai-way -> LEFT (04 chenkai way jar goes left)
     // 5: sec-orderband -> RIGHT (order band CTA)
     // 6: beyond -> RIGHT
     const xs = tablet
@@ -95,7 +122,7 @@ function GLTFJar() {
 
     const seg = Math.min(Math.max(0, progress.seg), 5.999);
     const i = Math.min(Math.floor(seg), 5);
-    const t = seg - i; // progress in between section i and section i+1 (0 to 1)
+    const t = seg - i; // progress between section i and section i+1 (0 to 1)
 
     // Smooth horizontal position interpolation for desktop/tablet
     const e = t * t * (3 - 2 * t);
@@ -104,9 +131,9 @@ function GLTFJar() {
     const desktopTx = a + (b - a) * e;
 
     // Mobile layout:
-    // Index 0 (Hero): Jar on RIGHT (+side * 0.82), text on left
-    // Index 1 (Sec 01): Jar on LEFT (-side * 0.82), text on right
-    // Index 2 (Products): Smooth exit above screen so products are never obstructed
+    // Hero: Jar on RIGHT (+side * 0.88)
+    // Sec 01: Jar on LEFT (-side * 0.88)
+    // Collection: Smooth exit above screen so product cards are completely unobstructed
     const mobileExit = mobile
       ? Math.max(0, Math.min(1, (seg - 1.0) / 0.6))
       : 0;
@@ -117,32 +144,38 @@ function GLTFJar() {
     const mobileEase = mobileT * mobileT * (3 - 2 * mobileT);
     const mobileTx = (side * 0.88) + ((-side * 0.88) - (side * 0.88)) * mobileEase;
 
-    const tx = mobile
-      ? mobileTx
-      : desktopTx;
+    const tx = mobile ? mobileTx : desktopTx;
+    const ty = mobile ? -mobileExitY : 0;
 
-    const ty = mobile
-      ? -mobileExitY
-      : 0;
-
-    // Scale: mobile jar is compact and stays comfortably on the right side without overlapping text
+    // Scale calculation
     const s = mobile
       ? state.viewport.height * 0.28 * Math.max(0, 1 - mobileExitEase)
       : state.viewport.height * (tablet ? 0.38 : 0.48) * (1 + Math.sin(p * Math.PI * 2) * 0.04);
 
-    // CURSOR & TOUCH INTERACTION:
-    // 1. Reactive hover tilt tracking across viewport
+    // On initial load, place the jar directly at its hero position so it never jumps from 0,0
+    if (!initialPlacedRef.current && g.current) {
+      g.current.position.x = tx;
+      g.current.position.y = ty;
+      g.current.scale.setScalar(s);
+      if (shadowRef.current) {
+        shadowRef.current.position.x = tx;
+        shadowRef.current.position.y = ty - (0.505 * s);
+        const initShadowDiameter = s * 1.5;
+        shadowRef.current.scale.set(initShadowDiameter, initShadowDiameter, 1);
+      }
+      initialPlacedRef.current = true;
+    }
+
+    // Cursor & interaction tilts
     const hoverTiltX = -cursor.hoverY * 0.45;
     const hoverTiltY = cursor.hoverX * 0.75;
-
-    // 2. Direct user click-and-drag 360-degree rotation
     const userDragX = cursor.dragY;
     const userDragY = cursor.dragX;
 
-    // FRONT PRAWN PICKLE LABEL ORIENTATION:
+    // Front label orientation
     const LABEL_FRONT_OFFSET = Math.PI * 1.55;
 
-    // SEAMLESS VERTICAL FLIP IN BETWEEN SECTIONS:
+    // Smooth vertical flip between sections
     const u = Math.max(0, Math.min(1, (t - 0.15) / 0.7));
     const flipEase = u * u * u * (u * (u * 6 - 15) + 10);
     const verticalFlip = progress.reduced ? 0 : (i * Math.PI * 2) + (flipEase * Math.PI * 2);
@@ -165,17 +198,68 @@ function GLTFJar() {
 
     const cs = g.current.scale.x + (s - g.current.scale.x) * k;
     g.current.scale.setScalar(cs);
+
+    // ── DYNAMIC SYNCHRONIZED SHADOW ──────────────────────────────────────────
+    // The shadow follows the jar's X position, ground contact level, and scale
+    if (shadowRef.current) {
+      shadowRef.current.position.x = g.current.position.x;
+      // Position directly beneath the jar base (bottom of jar is at g.current.position.y - 0.5 * cs)
+      const jarBaseY = g.current.position.y - (0.505 * cs);
+      shadowRef.current.position.y = jarBaseY;
+
+      // Realistic circular ground footprint, perspective camera projects it as natural contact ellipse
+      const shadowDiameter = cs * 1.5;
+      shadowRef.current.scale.set(shadowDiameter, shadowDiameter, 1);
+
+      if (shadowMatRef.current) {
+        const lift = Math.abs(inBetweenSwayY);
+        const mobileFade = mobile ? Math.max(0, 1 - mobileExitEase * 1.6) : 1;
+        const baseOpacity = 0.46;
+        shadowMatRef.current.opacity = Math.max(0, (baseOpacity - lift * 0.7) * mobileFade);
+      }
+    }
   });
 
-  return createElement("group", { ref: g },
-    createElement(Center, null,
-      createElement("primitive", { object: scene, scale: modelScale }),
+  return createElement("group", null,
+    // The animated 3D Jar
+    createElement("group", { ref: g },
+      createElement(Center, null,
+        createElement("primitive", { object: scene, scale: modelScale }),
+      ),
     ),
+    // The synchronized ground contact shadow that follows the jar in all sections
+    shadowTexture && createElement("group", {
+      ref: shadowRef,
+      rotation: [-Math.PI / 2, 0, 0],
+      position: [0, -0.83, 0]
+    },
+      createElement("mesh", null,
+        createElement("planeGeometry", { args: [1, 1] }),
+        createElement("meshBasicMaterial", {
+          ref: shadowMatRef,
+          map: shadowTexture,
+          transparent: true,
+          opacity: 0.46,
+          depthWrite: false,
+        })
+      )
+    )
   );
 }
 
 export function JarScene() {
+  const [entered, setEntered] = useState(false);
+
   useEffect(() => {
+    // Reveal jar gracefully after the loading screen animation concludes
+    const onLoaderFinished = () => {
+      setEntered(true);
+    };
+    if (typeof window !== "undefined" && (window as any).__CHENKAI_LOADER_FINISHED__) {
+      setEntered(true);
+    }
+    window.addEventListener("chenkai-loader-finished", onLoaderFinished);
+
     let ticking = false;
     const onScroll = () => {
       if (!ticking) {
@@ -250,7 +334,6 @@ export function JarScene() {
 
     const onPointerDown = (e: PointerEvent) => {
       const target = e.target as HTMLElement | null;
-      // Do not initiate 3D drag if clicking links, buttons, inputs, etc.
       if (target?.closest?.("a, button, input, textarea, select, [role='button']")) {
         return;
       }
@@ -272,6 +355,7 @@ export function JarScene() {
     window.addEventListener("pointercancel", onPointerUp, { passive: true });
 
     return () => {
+      window.removeEventListener("chenkai-loader-finished", onLoaderFinished);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
       window.removeEventListener("pointermove", onPointerMove);
@@ -282,7 +366,11 @@ export function JarScene() {
   }, []);
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-20">
+    <div
+      className={`pointer-events-none fixed inset-0 z-20 transition-opacity duration-1000 ease-out ${
+        entered ? "opacity-100" : "opacity-0"
+      }`}
+    >
       <div className="sticky top-0 h-[100svh] w-full">
         <Canvas
           dpr={[1, 1.5]}
@@ -294,7 +382,6 @@ export function JarScene() {
           {createElement("directionalLight", { position: [3, 5, 4], intensity: 2 })}
           <Suspense fallback={null}>
             {createElement(GLTFJar)}
-            {createElement(ContactShadows, { frames: 1, position: [0, -1.4, 0], opacity: 0.35, blur: 2.5, scale: 6 })}
             {createElement(Environment, { resolution: 128 },
               createElement(Lightformer, { intensity: 2, position: [0, 5, 0], scale: [10, 10, 1] }),
               createElement(Lightformer, { intensity: 1.5, color: "#ff3b30", position: [-5, 1, -1], rotation: [0, Math.PI / 2, 0], scale: [20, 1, 1] }),
@@ -306,5 +393,3 @@ export function JarScene() {
     </div>
   );
 }
-
-

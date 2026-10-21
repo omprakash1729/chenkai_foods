@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { JarScene } from "@/components/JarScene";
-import { Nav, Footer, OrderBand } from "@/components/site";
+import { Nav, Footer, OrderBand, BulkPreOrderScroller } from "@/components/site";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ProductCard";
 import { CartBar } from "@/components/CartBar";
@@ -55,12 +55,9 @@ function HomeInner() {
               Chenkai<br />
               <span className="text-primary">Food.</span>
             </h1>
-            <p className="mt-3 sm:mt-5 max-w-[48%] sm:max-w-md text-xs sm:text-base leading-relaxed text-muted-foreground font-medium">
-              A little heat.<br />
-              A little tang.<br />
-              A whole lot of home<br />
-              in every jar.
-            </p>
+            <h2 className="mt-3 sm:mt-5 max-w-[52%] sm:max-w-lg text-sm sm:text-lg leading-relaxed text-muted-foreground font-medium">
+              Authentic prawn and dry fish pickles, packed with traditional flavours and the perfect blend of spices.
+            </h2>
             <Button asChild size="default" className="relative mt-5 sm:mt-6 rounded-full shadow-md glow-hover font-bold text-xs uppercase tracking-wider px-5 sm:px-7 h-10 sm:h-12 w-fit">
               <Link to="/products">
                 Find your flavour <ArrowUpRight size={14} />
@@ -97,9 +94,9 @@ function HomeInner() {
           </div>
         </section>
 
-        {/* Red Ribbon Bar */}
-        <div className="relative z-10 border-y border-border bg-primary py-5 text-center text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground">
-          A little heat · A little tang · A whole lot of Chenkai
+        {/* Bulk Pre-Order Marquee Ticker */}
+        <div className="relative z-20">
+          <BulkPreOrderScroller theme="red" />
         </div>
 
         {/* Section 02: Full Product Showcase — ALL products */}

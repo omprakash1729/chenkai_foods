@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { WHATSAPP, waLink } from "@/lib/whatsapp";
 export { WHATSAPP, waLink };
+export { BulkPreOrderScroller } from "./BulkPreOrderScroller";
 
 const links = [
   { to: "/", label: "Home" },
@@ -154,14 +155,23 @@ export function OrderBand() {
 
 export function TrustBadges() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 py-8">
       <div className="flex items-start gap-4 p-6 bg-card border border-border/30 rounded-3xl shadow-sm hover:border-primary/40 transition-all">
         <div className="p-3 bg-primary/10 text-primary rounded-2xl shrink-0">
           <Microscope size={24} />
         </div>
         <div>
           <h4 className="font-display uppercase text-sm tracking-wide text-foreground">Food Science Formulated</h4>
-          <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">Artisanal preservation grounded in food science precision and coastal heritage.</p>
+          <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">Formulated with food science precision and marine lipid stability by Dr. R. Navaneethan, Ph.D.</p>
+        </div>
+      </div>
+      <div className="flex items-start gap-4 p-6 bg-card border border-primary/20 rounded-3xl shadow-sm hover:border-primary/40 transition-all bg-primary/[0.02]">
+        <div className="p-2 bg-white rounded-2xl shrink-0 shadow-xs border border-border/40">
+          <img src="/tnjfu-logo.png" alt="TNJFU Emblem" className="h-9 w-9 object-contain" />
+        </div>
+        <div>
+          <h4 className="font-display uppercase text-sm tracking-wide text-foreground">TNJFU Collaboration</h4>
+          <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">Manufacturing & technology collaboration with TNJFU fisheries university.</p>
         </div>
       </div>
       <div className="flex items-start gap-4 p-6 bg-card border border-border/30 rounded-3xl shadow-sm hover:border-primary/40 transition-all">
@@ -169,8 +179,8 @@ export function TrustBadges() {
           <ShieldCheck size={24} />
         </div>
         <div>
-          <h4 className="font-display uppercase text-sm tracking-wide text-foreground">0% Artificial Preservatives</h4>
-          <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">No synthetic colors, MSG, or chemical stabilizers. Preserved entirely with sea salt & oils.</p>
+          <h4 className="font-display uppercase text-sm tracking-wide text-foreground">0% Preservatives</h4>
+          <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">Zero artificial preservatives, MSG, synthetic colors, or chemical stabilizers.</p>
         </div>
       </div>
       <div className="flex items-start gap-4 p-6 bg-card border border-border/30 rounded-3xl shadow-sm hover:border-primary/40 transition-all">
@@ -179,7 +189,7 @@ export function TrustBadges() {
         </div>
         <div>
           <h4 className="font-display uppercase text-sm tracking-wide text-foreground">Wild Ocean Harvest</h4>
-          <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">Single-origin hand-pounded spices & wild-caught premium seafood.</p>
+          <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">Single-origin hand-pounded spices & wild-caught coastal catch.</p>
         </div>
       </div>
     </div>
@@ -190,6 +200,32 @@ export function Footer() {
   return (
     <footer className="relative z-30 mt-0 border-t border-white/10 bg-black text-white pt-16 pb-12 px-6 md:px-12">
       <div className="relative z-40 mx-auto max-w-7xl">
+        {/* Official TNJFU Collaboration Showcase Banner */}
+        <div className="mb-14 rounded-3xl border border-white/15 bg-gradient-to-r from-zinc-950 via-zinc-900 to-black p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+          <div className="absolute right-0 top-0 -mt-8 -mr-8 w-64 h-64 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
+          <div className="relative z-10 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
+            <div className="shrink-0 p-3 bg-white rounded-2xl shadow-xl flex items-center justify-center">
+              <img
+                src="/tnjfu-logo.png"
+                alt="Tamil Nadu Dr. J. Jayalalithaa Fisheries University (TNJFU) Logo"
+                className="h-20 w-20 sm:h-24 sm:w-24 object-contain"
+                loading="lazy"
+              />
+            </div>
+            <div className="flex-1">
+              <p className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-primary mb-2">
+                Manufacturing & Technology Collaboration
+              </p>
+              <h3 className="font-display text-xl sm:text-2xl uppercase tracking-wide text-white">
+                Collaborative Manufacturing with TNJFU
+              </h3>
+              <p className="mt-2 text-xs sm:text-sm leading-relaxed text-white/80 max-w-3xl">
+                We proudly collaborate with <strong className="text-white font-bold">Tamil Nadu Dr. J. Jayalalithaa Fisheries University (TNJFU)</strong> for manufacturing, technical incubation, and quality standards. Our artisanal seafood products are crafted utilizing university-guided marine processing standards, hygienic solar drying protocols, and strict food safety validation.
+              </p>
+            </div>
+          </div>
+        </div>
+
         <div className="grid gap-12 pb-16 lg:grid-cols-[2fr_1fr_1fr_1.5fr]">
           {/* Brand Column */}
           <div>
@@ -245,11 +281,12 @@ export function Footer() {
           <div>
             <p className="eyebrow text-primary mb-4">Our Selections</p>
             <ul className="flex flex-col gap-2 text-xs font-bold uppercase tracking-wider text-white/70">
-              <li className="hover:text-primary transition-colors cursor-pointer">Artisanal Fish Pickle</li>
-              <li className="hover:text-primary transition-colors cursor-pointer">Wild Prawn Pickle</li>
-              <li className="hover:text-primary transition-colors cursor-pointer">Sun-Cured Anchovy (Nethili)</li>
-              <li className="hover:text-primary transition-colors cursor-pointer">Seer Fish (Vanjaram)</li>
-              <li className="hover:text-primary transition-colors cursor-pointer">Baby Prawns (Chenakunni)</li>
+              <li className="hover:text-primary transition-colors cursor-pointer">Prawn Pickle (180 g)</li>
+              <li className="hover:text-primary transition-colors cursor-pointer">Crab Pickle (180 g)</li>
+              <li className="hover:text-primary transition-colors cursor-pointer">Fish Pickle (180 g)</li>
+              <li className="hover:text-primary transition-colors cursor-pointer">Maasi Karuvadu (250 g)</li>
+              <li className="hover:text-primary transition-colors cursor-pointer">Dry Vanjaram (250 g)</li>
+              <li className="hover:text-primary transition-colors cursor-pointer">Solar Nethili (250 g)</li>
             </ul>
           </div>
 
@@ -266,6 +303,7 @@ export function Footer() {
               +91 63743 92488 <ArrowUpRight size={16} />
             </a>
             <p className="mt-2 text-xs text-white/60 leading-relaxed">
+              In Collaborative Manufacturing with TNJFU,<br />
               Coastal Artisanal Facility,<br />
               Southern Coast, Tamil Nadu, India.
             </p>
@@ -282,7 +320,7 @@ export function Footer() {
 
         {/* Bottom Bar without Back to Top Button */}
         <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/15 pt-8 text-xs text-white/50">
-          <span>© {new Date().getFullYear()} Chenkai Foods. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Chenkai Foods. In manufacturing collaboration with TNJFU. All rights reserved.</span>
 
           <a
             href="https://www.instagram.com/chenkaifoods/"

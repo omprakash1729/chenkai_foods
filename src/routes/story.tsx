@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, Sun, Droplets, Flame } from "lucide-react";
-import { Nav, Footer, OrderBand, TrustBadges } from "@/components/site";
+import { Nav, Footer, OrderBand, TrustBadges, BulkPreOrderScroller } from "@/components/site";
 import { Button } from "@/components/ui/button";
 import table from "@/assets/pickle-table.jpg";
 import fishImg from "@/assets/fish-pickle.jpg";
@@ -169,6 +169,64 @@ function Story() {
           </div>
         </section>
 
+        {/* Section 04: Institutional Collaboration with TNJFU */}
+        <section className="bg-gradient-to-br from-zinc-950 via-zinc-900 to-black text-white py-20 px-6 md:px-12 my-12 rounded-3xl mx-4 max-w-7xl lg:mx-auto border border-primary/25 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 -mt-16 -mr-16 w-96 h-96 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
+          <div className="relative z-10 page-width">
+            <div className="grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-16 items-center">
+              <div>
+                <span className="eyebrow text-primary">04 / Institutional Partnership</span>
+                <h2 className="font-display text-3xl sm:text-4xl md:text-5xl uppercase leading-tight text-white">
+                  Manufacturing in Collaboration with <span className="text-primary">TNJFU.</span>
+                </h2>
+                <p className="mt-3 text-xs sm:text-sm font-semibold uppercase tracking-wider text-white/70">
+                  Tamil Nadu Dr. J. Jayalalithaa Fisheries University
+                </p>
+                <p className="mt-6 text-sm md:text-base leading-relaxed text-white/80">
+                  To merge ancient culinary artisanal wisdom with modern food security protocols, Chenkai Foods works in close manufacturing and technology incubation collaboration with <strong className="text-white">Tamil Nadu Dr. J. Jayalalithaa Fisheries University (TNJFU)</strong> — Tamil Nadu's apex government institution for fisheries research and aquatic sciences.
+                </p>
+                <p className="mt-4 text-sm md:text-base leading-relaxed text-white/80">
+                  Under this collaborative framework, our production leverages university-standard hygienic processing, controlled solar-tunnel drying technologies, and systematic microbial testing. This scientific partnership guarantees that every jar of seafood pickle and packet of sun-cured dry fish reaches your table in its purest, safest, and most flavorful form — completely free from synthetic preservatives.
+                </p>
+
+                <div className="mt-8 flex flex-wrap gap-4">
+                  <div className="flex items-center gap-2.5 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-white backdrop-blur-sm border border-white/10">
+                    <span className="text-primary font-bold">✓</span> Clinical Solar Drying
+                  </div>
+                  <div className="flex items-center gap-2.5 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-white backdrop-blur-sm border border-white/10">
+                    <span className="text-primary font-bold">✓</span> Incubation Oversight
+                  </div>
+                  <div className="flex items-center gap-2.5 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-white backdrop-blur-sm border border-white/10">
+                    <span className="text-primary font-bold">✓</span> Certified Food Safety
+                  </div>
+                </div>
+              </div>
+
+              {/* University Logo Card */}
+              <div className="flex flex-col items-center justify-center p-8 sm:p-12 rounded-3xl bg-white/5 border border-white/15 backdrop-blur-md shadow-2xl text-center">
+                <div className="p-4 bg-white rounded-3xl shadow-2xl mb-6">
+                  <img
+                    src="/tnjfu-logo.png"
+                    alt="Tamil Nadu Dr. J. Jayalalithaa Fisheries University (TNJFU)"
+                    width={180}
+                    height={180}
+                    className="h-32 w-32 sm:h-40 sm:w-40 object-contain"
+                  />
+                </div>
+                <h3 className="font-display text-lg sm:text-xl uppercase tracking-wider text-white">
+                  TNJFU Collaboration
+                </h3>
+                <p className="mt-1 text-xs font-bold uppercase tracking-widest text-primary">
+                  Educate · Innovate · Elevate
+                </p>
+                <p className="mt-4 text-xs leading-relaxed text-white/70 max-w-sm">
+                  Apex state fisheries university empowering indigenous coastal enterprises through state-of-the-art marine processing and hygienic preservation technologies.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Call to Action Product Link */}
         <section className="bg-secondary/60 py-20 px-6 md:px-12 my-12 rounded-3xl mx-4 max-w-7xl lg:mx-auto">
           <div className="page-width grid items-center gap-12 md:grid-cols-2 md:gap-16">
@@ -195,6 +253,7 @@ function Story() {
           </div>
         </section>
       </main>
+      <BulkPreOrderScroller />
       <OrderBand />
       <Footer />
     </div>

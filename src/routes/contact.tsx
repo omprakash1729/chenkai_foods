@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowUpRight, MessageCircle, Phone, MapPin, CheckCircle2, Send } from "lucide-react";
 import { useState, type FormEvent } from "react";
-import { Nav, Footer, waLink } from "@/components/site";
+import { Nav, Footer, waLink, BulkPreOrderScroller } from "@/components/site";
 import { Button } from "@/components/ui/button";
 import { products } from "@/lib/products";
 import { ProductMultiSelect, type SelectedProductItem } from "@/components/ProductMultiSelect";
@@ -39,12 +39,12 @@ function Contact() {
 
   const [selectedProducts, setSelectedProducts] = useState<SelectedProductItem[]>([
     {
-      productId: "chenkai-prawn-pickle",
-      name: "Chenkai Prawn Pickle",
-      category: "Pickles",
+      productId: products[0]?.id || "prawn-pickle",
+      name: products[0]?.name || "Prawn Pickle",
+      category: products[0]?.category || "Pickles",
       image: products[0]?.image || "",
-      price: "₹450 / 250g",
-      weight: "250g Jar (Standard)",
+      price: `${products[0]?.price || "₹180"} / ${products[0]?.weight || "180 g"}`,
+      weight: `${products[0]?.weight || "180 g"} Jar (Standard)`,
       qty: 1,
     },
   ]);
@@ -287,8 +287,16 @@ ${formData.message || "Please share availability and shipping timeline."}`;
                 a: "We specialize exclusively in authentic seafood: Fish Pickle, Prawn Pickle, and sun-cured dry fish packets including Anchovy - Nethili, Seer Fish - Vanjaram, and Baby Prawns - Chenakunni.",
               },
               {
+                q: "Do you accept bulk orders and commercial consignments?",
+                a: "Yes! We accept bulk orders and institutional consignments strictly on an advance pre-order basis. Each batch is handcrafted and cured fresh specifically to your required allocation. Contact us directly on WhatsApp (+91 63743 92488) or select 'Custom Bulk / Institutional Pack' in the form above.",
+              },
+              {
+                q: "How does your collaboration with TNJFU work?",
+                a: "We collaborate with Tamil Nadu Dr. J. Jayalalithaa Fisheries University (TNJFU) for manufacturing technology, incubation oversight, and food safety standards. This ensures every product is crafted under hygienic processing protocols with zero artificial preservatives.",
+              },
+              {
                 q: "How do I place an order or enquire about delivery?",
-                a: "You can click any 'Book Now' button or submit the enquiry form above. Your request redirects to our official WhatsApp line (+91 63743 92488), where we confirm availability and shipping details.",
+                a: "You can click any 'Book on WhatsApp' button or submit the enquiry form above. Your request redirects to our official WhatsApp line (+91 63743 92488), where we confirm batch availability, dispatch schedules, and shipping details.",
               },
               {
                 q: "What is the shelf life of Chenkai Foods seafood pickles and dry fish?",
@@ -308,6 +316,7 @@ ${formData.message || "Please share availability and shipping timeline."}`;
           </div>
         </section>
       </main>
+      <BulkPreOrderScroller />
       <Footer />
     </div>
   );

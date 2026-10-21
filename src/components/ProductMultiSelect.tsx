@@ -18,43 +18,30 @@ export function getAvailableWeights(productId: string, category: string): string
     return [
       "3-Jar Pickle Sampler Pack",
       "5-Item Dry Fish Discovery Pack",
-      "Complete 11-Product Showcase Box",
+      "Complete 10-Product Showcase Box",
     ];
   }
   if (productId === "custom-bulk") {
     return [
-      "5 kg Commercial Pack",
-      "10 kg Restaurant / Wholesale",
+      "5 kg Commercial Pre-Order",
+      "10 kg Institutional Wholesale",
       "25 kg+ Institutional Supply",
-      "Custom Quantity (Specify in message)",
+      "Custom Volume (Specify in message)",
     ];
   }
   if (category === "Pickles") {
     return [
-      "250g Jar (Standard)",
-      "500g Jar (Family Value)",
-      "1 kg Jar (Bulk / Gifting)",
-    ];
-  }
-  if (productId === "vanjaram-dry-fish") {
-    return [
-      "250g Standard Pack",
-      "500g Premium Pack",
-      "1 kg Wholesale Bulk",
-    ];
-  }
-  if (productId === "massi-karuvadu") {
-    return [
-      "150g Standard Jar",
-      "300g Double Pack",
-      "1 kg Bulk Pack",
+      "180 g Jar (Standard Pack)",
+      "360 g Twin Jar Pack",
+      "1 kg Commercial Pre-Order",
+      "Bulk Catering Allocation",
     ];
   }
   return [
-    "100g Trial Pack",
-    "200g Standard Pack",
-    "500g Value Pack",
-    "1 kg Bulk Wholesale",
+    "250 g Standard Pack",
+    "500 g Value Pack",
+    "1 kg Bulk Pre-Order",
+    "5 kg Institutional Pre-Order",
   ];
 }
 

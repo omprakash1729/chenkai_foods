@@ -54,7 +54,7 @@ export function CartBar() {
 
   const waMessage = () => {
     const lines = items
-      .map((i) => `• ${i.product.name} (${i.product.price}) × ${i.qty}`)
+      .map((i) => `• ${i.product.name} (${i.product.price} / ${i.product.weight}) × ${i.qty}`)
       .join("\n");
     return `Hi Chenkai Foods! I'd like to order:\n\n${lines}\n\nPlease confirm availability and share delivery details. Thank you!`;
   };

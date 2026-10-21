@@ -180,7 +180,28 @@ button, a, [role="button"] {
 }
 
 /* Exception for inline/text links */
-p a, nav a, footer a {
+p a, nav a, footer a, .marquee-link {
   min-height: unset;
   min-width: unset;
 }
+
+/* ── Seamless Marquee Ticker ────────────────────────────────────────────── */
+@keyframes marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
