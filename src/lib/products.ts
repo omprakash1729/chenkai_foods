@@ -35,7 +35,7 @@ export const products: Product[] = [
     tag: "Signature",
     desc: "Succulent wild ocean prawns infused with a bold blend of traditional spices, cold-pressed gingelly oil, and a tangy tamarind kick.",
     details:
-      "Wild ocean prawns prepared according to ancestral coastal recipes. Pairs exquisitely with curd rice, steamed rice, or dosas. 0% artificial preservatives.",
+      "Wild ocean prawns prepared according to ancestral coastal recipes. Pairs exquisitely with curd rice, steamed rice, or dosas. 0% taste enhancers, MSG & sodium benzoate.",
     price: "₹180",
     weight: "180 g",
     image: prawnPickle,
@@ -50,7 +50,7 @@ export const products: Product[] = [
     tag: "Coastal Luxury",
     desc: "Delicate shredded ocean crab meat simmered in an aromatic South Indian spiced gravy with curry leaves and cold-pressed oil.",
     details:
-      "A rare coastal indulgence. Tender crab meat infused with aromatic spices, delivering deep umami in every spoonful. 0% artificial preservatives.",
+      "A rare coastal indulgence. Tender crab meat infused with aromatic spices, delivering deep umami in every spoonful. 0% taste enhancers, MSG & sodium benzoate.",
     price: "₹220",
     weight: "180 g",
     image: crabPickle,
@@ -65,7 +65,7 @@ export const products: Product[] = [
     tag: "Regional Special",
     desc: "Inspired by the heritage of Kanyakumari — firm boneless fish cubes marinated in a fiery, tangy tamarind and red chilli masala.",
     details:
-      "Authentic southern cape recipe. Perfectly balanced tang, spice, and tender fish pieces cured naturally. 0% artificial preservatives.",
+      "Authentic southern cape recipe. Perfectly balanced tang, spice, and tender fish pieces cured naturally. 0% taste enhancers, MSG & sodium benzoate.",
     price: "₹160",
     weight: "180 g",
     image: fishPickle,

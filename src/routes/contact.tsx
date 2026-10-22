@@ -85,25 +85,25 @@ ${formData.message || "Please share availability and shipping timeline."}`;
   };
 
   return (
-    <div className="bg-background text-foreground">
+    <div className="bg-background text-foreground overflow-x-hidden">
       <Nav />
-      <main className="page-width pb-24 pt-36">
+      <main className="page-width pb-24 pt-28 sm:pt-36">
         <span className="eyebrow text-primary">Orders & Product Enquiries</span>
-        <h1 className="mt-2 font-display text-4xl uppercase leading-tight md:text-6xl tracking-wide">
+        <h1 className="mt-2 font-display text-3xl sm:text-5xl md:text-6xl uppercase leading-tight tracking-wide break-words">
           Get in Touch with<br />
           <span className="text-primary">Chenkai Foods.</span>
         </h1>
 
-        <div className="mt-12 grid gap-12 md:grid-cols-2 md:gap-16">
+        <div className="mt-10 sm:mt-12 grid gap-8 sm:gap-12 md:grid-cols-2 md:gap-16">
           {/* Left Side: Contact Information */}
           <div>
             <p className="text-sm md:text-base leading-relaxed text-muted-foreground font-normal">
               Have a question about our seafood pickles, sun-cured dry fish, or custom bulk orders? Our team is available to assist you.
             </p>
 
-            <div className="mt-8 space-y-6 bg-card p-8 border border-border/30 rounded-3xl shadow-sm">
+            <div className="mt-8 space-y-6 bg-card p-5 sm:p-8 border border-border/30 rounded-3xl shadow-sm">
               <div className="flex items-start gap-4">
-                <div className="p-3 bg-primary/10 text-primary rounded-2xl">
+                <div className="p-3 bg-primary/10 text-primary rounded-2xl shrink-0">
                   <Phone size={20} />
                 </div>
                 <div>
@@ -119,22 +119,22 @@ ${formData.message || "Please share availability and shipping timeline."}`;
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="p-3 bg-primary/10 text-primary rounded-2xl">
+                <div className="p-3 bg-primary/10 text-primary rounded-2xl shrink-0">
                   <MapPin size={20} />
                 </div>
                 <div>
                   <h3 className="font-display text-base uppercase">Coastal Facility</h3>
                   <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
                     Chenkai Foods Artisanal Unit,<br />
-                    Southern Maritime Coast, Tamil Nadu, India.
+                    Nagapattinam, Tamil Nadu, India.
                   </p>
                 </div>
               </div>
             </div>
 
             {/* Quick WhatsApp Action Card */}
-            <div className="mt-8 bg-secondary p-8 border border-border/20 shadow-lg rounded-3xl">
-              <h3 className="font-display text-lg uppercase">Instant Order on WhatsApp</h3>
+            <div className="mt-6 sm:mt-8 bg-secondary p-5 sm:p-8 border border-border/20 shadow-lg rounded-3xl">
+              <h3 className="font-display text-base sm:text-lg uppercase">Instant Order on WhatsApp</h3>
               <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
                 Prefer direct messaging? Send your order request straight to our WhatsApp business desk.
               </p>
@@ -147,8 +147,8 @@ ${formData.message || "Please share availability and shipping timeline."}`;
           </div>
 
           {/* Right Side: Interactive Product Enquiry Form */}
-          <div className="bg-card p-8 border border-border/30 shadow-xl rounded-3xl">
-            <h2 className="font-display text-2xl uppercase tracking-wide">Product Enquiry Form</h2>
+          <div className="bg-card p-5 sm:p-8 border border-border/30 shadow-xl rounded-3xl">
+            <h2 className="font-display text-xl sm:text-2xl uppercase tracking-wide">Product Enquiry Form</h2>
             <p className="mt-1 text-xs text-muted-foreground">
               Fill out the form below to receive pricing, delivery options, and product availability.
             </p>
@@ -279,8 +279,8 @@ ${formData.message || "Please share availability and shipping timeline."}`;
           <div className="mt-8 divide-y divide-border/20 border-t border-border/20">
             {[
               {
-                q: "How are Chenkai Foods pickles preserved without artificial preservatives?",
-                a: "Using principles of food science, we optimize pure sea salt ratios, cold-pressed oils, and natural acidity to create a sterile environment that preserves wild seafood naturally.",
+                q: "How are Chenkai Foods pickles made without taste enhancers, MSG, or sodium benzoate?",
+                a: "Using principles of food science, we optimize pure sea salt ratios, cold-pressed oils, and natural acidity to create a sterile environment that preserves wild seafood naturally, completely free of MSG, taste enhancers, and sodium benzoate.",
               },
               {
                 q: "What products are currently available in the Chenkai collection?",
@@ -291,8 +291,8 @@ ${formData.message || "Please share availability and shipping timeline."}`;
                 a: "Yes! We accept bulk orders and institutional consignments strictly on an advance pre-order basis. Each batch is handcrafted and cured fresh specifically to your required allocation. Contact us directly on WhatsApp (+91 63743 92488) or select 'Custom Bulk / Institutional Pack' in the form above.",
               },
               {
-                q: "How does your collaboration with TNJFU work?",
-                a: "We collaborate with Tamil Nadu Dr. J. Jayalalithaa Fisheries University (TNJFU) for manufacturing technology, incubation oversight, and food safety standards. This ensures every product is crafted under hygienic processing protocols with zero artificial preservatives.",
+                q: "How does your collaboration with Tamil Nadu Dr. J. Jayalalithaa Fisheries University (TNJFU), Nagapattinam work?",
+                a: "We collaborate with Tamil Nadu Dr. J. Jayalalithaa Fisheries University (TNJFU), Nagapattinam for manufacturing technology, incubation oversight, and food safety standards. This ensures every product is crafted under hygienic processing protocols with 0% taste enhancers, MSG & sodium benzoate.",
               },
               {
                 q: "How do I place an order or enquire about delivery?",

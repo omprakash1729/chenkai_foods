@@ -24,7 +24,7 @@ export function ProductCard({ product }: { product: Product }) {
   return (
     <>
       {/* ── Mobile 2-Column Swiggy Instamart / Blinkit Style Card (< sm) ── */}
-      <article className="flex sm:hidden relative flex-col justify-between rounded-2xl bg-white border border-zinc-200/90 shadow-sm p-2.5 transition-all">
+      <article className="flex sm:hidden relative flex-col justify-between rounded-2xl bg-white border border-zinc-200/90 shadow-sm p-2 sm:p-2.5 transition-all">
         {/* Top: Square Product Image */}
         <div className="relative aspect-square w-full rounded-xl overflow-hidden bg-zinc-50 border border-zinc-100">
           <img
@@ -40,7 +40,7 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
 
         {/* Middle: Details */}
-        <div className="flex-1 flex flex-col justify-between mt-2 min-h-[56px]">
+        <div className="flex-1 flex flex-col justify-between mt-2 min-h-[58px]">
           <div>
             <h3 className="font-bold text-xs text-zinc-900 leading-snug line-clamp-2">
               {product.name}
@@ -51,10 +51,13 @@ export function ProductCard({ product }: { product: Product }) {
               </p>
             )}
           </div>
-          <div className="mt-1.5 flex items-center justify-between">
+          <div className="mt-1 flex flex-col">
             <span className="font-black text-xs text-zinc-900">
               {product.price}
             </span>
+            <p className="text-[8px] text-zinc-400 italic font-medium tracking-tight mt-0.5">
+              *Original image may vary
+            </p>
           </div>
         </div>
 
@@ -64,7 +67,7 @@ export function ProductCard({ product }: { product: Product }) {
             <button
               id={`add-to-cart-mob-${product.id}`}
               onClick={handleAdd}
-              className="w-full h-8 flex items-center justify-center gap-1.5 rounded-xl bg-primary hover:bg-red-700 active:scale-95 text-white font-black text-xs uppercase tracking-wider shadow-sm transition-all border-none cursor-pointer"
+              className="w-full h-8 min-h-0 min-w-0 flex items-center justify-center gap-1.5 rounded-xl bg-primary hover:bg-red-700 active:scale-95 text-white font-black text-xs uppercase tracking-wider shadow-sm transition-all border-none cursor-pointer"
               aria-label={`Add ${product.name} to cart`}
             >
               <Plus size={13} strokeWidth={3} />
@@ -77,7 +80,7 @@ export function ProductCard({ product }: { product: Product }) {
               <button
                 onClick={() => decrement(product.id)}
                 aria-label="Decrease quantity"
-                className="w-8 h-full flex items-center justify-center text-white hover:bg-red-700 active:scale-90 transition-all cursor-pointer"
+                className="w-8 h-full min-h-0 min-w-0 flex items-center justify-center text-white hover:bg-red-700 active:scale-90 transition-all cursor-pointer"
               >
                 <Minus size={13} strokeWidth={3} />
               </button>
@@ -90,7 +93,7 @@ export function ProductCard({ product }: { product: Product }) {
                   setPulse(true);
                 }}
                 aria-label="Increase quantity"
-                className="w-8 h-full flex items-center justify-center text-white hover:bg-red-700 active:scale-90 transition-all cursor-pointer"
+                className="w-8 h-full min-h-0 min-w-0 flex items-center justify-center text-white hover:bg-red-700 active:scale-90 transition-all cursor-pointer"
               >
                 <Plus size={13} strokeWidth={3} />
               </button>
@@ -132,8 +135,13 @@ export function ProductCard({ product }: { product: Product }) {
           </div>
 
           {/* Description */}
-          <p className="text-xs leading-normal text-white/85 font-normal line-clamp-2 mb-3 drop-shadow">
+          <p className="text-xs leading-normal text-white/85 font-normal line-clamp-2 mb-2 drop-shadow">
             {product.desc}
+          </p>
+
+          {/* Tagline */}
+          <p className="text-[9.5px] text-white/70 italic tracking-wide mb-2.5 drop-shadow">
+            *Original image may vary
           </p>
 
           {/* Ingredient tags */}

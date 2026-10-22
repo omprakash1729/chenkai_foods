@@ -1,11 +1,11 @@
 # Chenkai Foods — The Science of Tradition
 
-Artisanal seafood creations crafted with food science precision and coastal South Indian heritage. Proprietor: Dr. R. Navaneethan, Ph.D. in Food Science and Technology.
+Artisanal seafood creations crafted with food science precision and coastal South Indian heritage. Proprietor: Dr. R. Navaneethan, Ph.D., in Food Science and Technology.
 
 ## Key Features
 - **Artisanal Seafood Pickles**: Fish Pickle and Prawn Pickle made with wild-caught harvests and single-origin hand-pounded spices.
 - **Premium Dry Fish Selections**: Sun-cured Anchovy (Nethili), Seer Fish (Vanjaram), and Baby Prawns (Chenakunni) with sea salt and turmeric.
-- **Pure & Uncompromising**: 100% free of artificial preservatives, synthetic colors, and commercial flavor enhancers.
+- **Pure & Uncompromising**: 100% free of taste enhancers, MSG, sodium benzoate, and synthetic colors.
 - **3D Interactive Storytelling**: Scroll-driven Three.js 3D jar experience showcasing our heritage and craftsmanship.
 
 ## Development

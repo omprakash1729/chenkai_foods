@@ -13,7 +13,7 @@ export function BulkPreOrderScroller({ className = "", theme = "red" }: BulkPreO
     },
     {
       badge: "FRESH ARTISANAL RUNS",
-      text: "Batches Handcrafted Fresh Upon Reservation • 0% Artificial Preservatives",
+      text: "Batches Handcrafted Fresh Upon Reservation • 0% Taste Enhancers, MSG & Sodium Benzoate",
     },
     {
       badge: "BESPOKE VOLUMES",
@@ -21,7 +21,7 @@ export function BulkPreOrderScroller({ className = "", theme = "red" }: BulkPreO
     },
     {
       badge: "AUTHENTIC CURE",
-      text: "Direct Coastal Catch Formulated in Collaboration with Fisheries University (TNJFU)",
+      text: "Direct Coastal Catch Formulated in Collaboration with Tamil Nadu Dr. J. Jayalalithaa Fisheries University (TNJFU), Nagapattinam",
     },
   ];
 
@@ -34,7 +34,7 @@ export function BulkPreOrderScroller({ className = "", theme = "red" }: BulkPreO
 
   return (
     <div
-      className={`relative z-20 overflow-hidden select-none ${bgStyles} ${className}`}
+      className={`relative z-20 overflow-hidden select-none w-full max-w-full ${bgStyles} ${className}`}
       role="region"
       aria-label="Bulk order pre-order announcement"
     >

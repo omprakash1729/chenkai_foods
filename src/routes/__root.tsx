@@ -82,7 +82,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Chenkai Foods — The Science of Tradition | Artisanal Seafood & Sun-Cured Dry Fish" },
       {
         name: "description",
-        content: "Artisanal South Indian seafood fish pickles & sun-cured dry fish created with food science precision by Dr. R. Navaneethan, Ph.D. 100% free of artificial preservatives.",
+        content: "Artisanal South Indian seafood fish pickles & sun-cured dry fish created with food science precision by Dr. R. Navaneethan, Ph.D., 0% taste enhancers, MSG & sodium benzoate.",
       },
       { name: "keywords", content: "fish pickle, prawn pickle, nethili dry fish, vanjaram dry fish, chenakunni prawns, seafood pickles, south indian pickles, dr r navaneethan, chenkai foods" },
       { name: "author", content: "Chenkai Foods" },
@@ -105,7 +105,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:title", content: "Chenkai Foods — Artisanal Seafood & Sun-Cured Dry Fish" },
       {
         name: "twitter:description",
-        content: "Ancient coastal heritage meets food science precision. 0% artificial preservatives.",
+        content: "Ancient coastal heritage meets food science precision. 0% taste enhancers, MSG & sodium benzoate.",
       },
       { name: "twitter:image", content: "/og-image.jpg" },
     ],

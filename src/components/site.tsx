@@ -135,14 +135,14 @@ export function OrderBand() {
             Taste Uncompromising<br />Seafood Purity.
           </h2>
           <p className="mt-4 max-w-xl text-sm md:text-base leading-relaxed text-primary-foreground/90">
-            Wild-caught fish pickles, succulent prawn creations, and sun-cured dry fish packets. Zero artificial preservatives.
+            Wild-caught fish pickles, succulent prawn creations, and sun-cured dry fish packets. 0% taste enhancers, MSG & sodium benzoate.
           </p>
         </div>
         <Button
           asChild
           variant="outline"
           size="lg"
-          className="h-14 rounded-full border-2 border-primary-foreground bg-primary-foreground text-primary shadow-xl hover:bg-transparent hover:text-primary-foreground font-bold tracking-wider text-xs uppercase transition-all duration-300 hover:scale-105 px-8"
+          className="h-auto min-h-12 rounded-full border-2 border-primary-foreground bg-primary-foreground text-primary shadow-xl hover:bg-transparent hover:text-primary-foreground font-bold tracking-wider text-xs uppercase transition-all duration-300 hover:scale-105 px-6 sm:px-8 py-3.5 w-full sm:w-auto text-center justify-center"
         >
           <a href={waLink("Hi Chenkai Foods, I'd like to enquire about your seafood pickles and dry fish packets.")} target="_blank" rel="noreferrer">
             Enquire & Order on WhatsApp <ArrowUpRight />
@@ -155,41 +155,102 @@ export function OrderBand() {
 
 export function TrustBadges() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 py-8">
-      <div className="flex items-start gap-4 p-6 bg-card border border-border/30 rounded-3xl shadow-sm hover:border-primary/40 transition-all">
-        <div className="p-3 bg-primary/10 text-primary rounded-2xl shrink-0">
-          <Microscope size={24} />
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 py-6 sm:py-8">
+      {/* ── Card 1: Food Science Formulated (Mild Pearl-White Gradient) ── */}
+      <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-white via-zinc-50 to-zinc-100 text-zinc-950 border border-zinc-200/90 shadow-md hover:shadow-2xl transition-all duration-300 p-6 sm:p-8 flex items-center justify-between group min-h-[190px] sm:min-h-[210px]">
+        <div className="flex-1 min-w-0 pr-4 sm:pr-6 z-10 flex flex-col justify-center h-full">
+          <h4 className="font-display text-2xl sm:text-3xl uppercase tracking-tight text-zinc-950 leading-none">
+            Food Science
+          </h4>
+          <span className="block font-sans text-base sm:text-lg font-medium text-zinc-500 leading-tight mt-1">
+            Formulated
+          </span>
+          <p className="mt-3 text-xs text-zinc-600 max-w-[210px] sm:max-w-xs leading-relaxed">
+            Formulated with food science precision and marine lipid stability by <span className="whitespace-nowrap font-medium text-zinc-900">Dr. R. Navaneethan, Ph.D.,</span>
+          </p>
         </div>
-        <div>
-          <h4 className="font-display uppercase text-sm tracking-wide text-foreground">Food Science Formulated</h4>
-          <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">Formulated with food science precision and marine lipid stability by Dr. R. Navaneethan, Ph.D.</p>
-        </div>
-      </div>
-      <div className="flex items-start gap-4 p-6 bg-card border border-primary/20 rounded-3xl shadow-sm hover:border-primary/40 transition-all bg-primary/[0.02]">
-        <div className="p-2 bg-white rounded-2xl shrink-0 shadow-xs border border-border/40">
-          <img src="/tnjfu-logo.png" alt="TNJFU Emblem" className="h-9 w-9 object-contain" />
-        </div>
-        <div>
-          <h4 className="font-display uppercase text-sm tracking-wide text-foreground">TNJFU Collaboration</h4>
-          <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">Manufacturing & technology collaboration with TNJFU fisheries university.</p>
-        </div>
-      </div>
-      <div className="flex items-start gap-4 p-6 bg-card border border-border/30 rounded-3xl shadow-sm hover:border-primary/40 transition-all">
-        <div className="p-3 bg-primary/10 text-primary rounded-2xl shrink-0">
-          <ShieldCheck size={24} />
-        </div>
-        <div>
-          <h4 className="font-display uppercase text-sm tracking-wide text-foreground">0% Preservatives</h4>
-          <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">Zero artificial preservatives, MSG, synthetic colors, or chemical stabilizers.</p>
+        {/* Opposite end: Image directly floating on mild gradient with natural image shadow, no inner box */}
+        <div className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 shrink-0 relative flex items-center justify-center">
+          <img
+            src="/badges/food-science-3d.png"
+            alt="Food Science Precision Microscope"
+            className="w-full h-full object-contain filter drop-shadow-[0_16px_28px_rgba(0,0,0,0.18)] group-hover:scale-105 group-hover:-translate-y-1 transition-all duration-500"
+            loading="lazy"
+          />
         </div>
       </div>
-      <div className="flex items-start gap-4 p-6 bg-card border border-border/30 rounded-3xl shadow-sm hover:border-primary/40 transition-all">
-        <div className="p-3 bg-primary/10 text-primary rounded-2xl shrink-0">
-          <Award size={24} />
+
+      {/* ── Card 2: TNJFU Nagapattinam (Mild Crimson-Red Gradient) ── */}
+      <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#b91c1c] via-[#991b1b] to-[#7f1d1d] text-white shadow-xl hover:shadow-2xl hover:shadow-red-950/40 transition-all duration-300 p-6 sm:p-8 flex items-center justify-between group border border-red-400/25 min-h-[190px] sm:min-h-[210px]">
+        <div className="absolute top-0 right-0 -mr-10 -mt-10 w-48 h-48 rounded-full bg-white/10 blur-2xl pointer-events-none" />
+        <div className="flex-1 min-w-0 pr-4 sm:pr-6 z-10 flex flex-col justify-center h-full">
+          <h4 className="font-display text-lg sm:text-2xl uppercase tracking-tight text-white leading-tight">
+            Tamil Nadu <span className="whitespace-nowrap">Dr. J. Jayalalithaa</span>
+          </h4>
+          <span className="block font-sans text-xs sm:text-sm font-semibold text-white/90 leading-tight mt-1">
+            Fisheries University, Nagapattinam
+          </span>
+          <p className="mt-3 text-xs text-white/90 max-w-[210px] sm:max-w-xs leading-relaxed">
+            Manufacturing & incubation collaboration with Tamil Nadu <span className="whitespace-nowrap">Dr. J. Jayalalithaa</span> Fisheries University (TNJFU), Nagapattinam.
+          </p>
         </div>
-        <div>
-          <h4 className="font-display uppercase text-sm tracking-wide text-foreground">Wild Ocean Harvest</h4>
-          <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">Single-origin hand-pounded spices & wild-caught coastal catch.</p>
+        {/* Opposite end: TNJFU Emblem floating directly on gradient with image shadow (not inside another box) */}
+        <div className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 shrink-0 relative flex items-center justify-center">
+          <img
+            src="/tnjfu-logo.png"
+            alt="Tamil Nadu Dr. J. Jayalalithaa Fisheries University (TNJFU), Nagapattinam Emblem"
+            className="w-full h-full object-contain filter drop-shadow-[0_16px_32px_rgba(0,0,0,0.5)] group-hover:scale-105 group-hover:-translate-y-1 transition-all duration-500"
+            loading="lazy"
+          />
+        </div>
+      </div>
+
+      {/* ── Card 3: 0% Taste Enhancers (Mild Obsidian-Black Gradient) ── */}
+      <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#1c1c1f] via-[#141416] to-[#0a0a0c] text-white border border-white/10 shadow-xl hover:shadow-2xl transition-all duration-300 p-6 sm:p-8 flex items-center justify-between group min-h-[190px] sm:min-h-[210px]">
+        <div className="absolute top-0 right-0 -mr-10 -mt-10 w-48 h-48 rounded-full bg-primary/20 blur-2xl pointer-events-none" />
+        <div className="flex-1 min-w-0 pr-4 sm:pr-6 z-10 flex flex-col justify-center h-full">
+          <h4 className="font-display text-xl sm:text-2xl uppercase tracking-tight text-white leading-none">
+            0% Taste Enhancers
+          </h4>
+          <span className="block font-sans text-xs sm:text-sm font-semibold text-primary leading-tight mt-1">
+            MSG & Sodium Benzoate
+          </span>
+          <p className="mt-3 text-xs text-white/70 max-w-[210px] sm:max-w-xs leading-relaxed">
+            Zero taste enhancers, MSG, sodium benzoate, synthetic colors, or chemical additives.
+          </p>
+        </div>
+        {/* Opposite end: 3D Ruby crystal shield floating directly on gradient with image shadow, no inner box */}
+        <div className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 shrink-0 relative flex items-center justify-center">
+          <img
+            src="/badges/purity-shield-3d.png"
+            alt="0% Taste Enhancers Purity Shield"
+            className="w-full h-full object-contain filter drop-shadow-[0_16px_32px_rgba(220,38,38,0.4)] group-hover:scale-105 group-hover:-translate-y-1 transition-all duration-500"
+            loading="lazy"
+          />
+        </div>
+      </div>
+
+      {/* ── Card 4: Wild Ocean Harvest (Mild Pearl-White Gradient) ── */}
+      <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-white via-zinc-50 to-zinc-100 text-zinc-950 border border-zinc-200/90 shadow-md hover:shadow-2xl transition-all duration-300 p-6 sm:p-8 flex items-center justify-between group min-h-[190px] sm:min-h-[210px]">
+        <div className="flex-1 min-w-0 pr-4 sm:pr-6 z-10 flex flex-col justify-center h-full">
+          <h4 className="font-display text-2xl sm:text-3xl uppercase tracking-tight text-zinc-950 leading-none">
+            Wild Ocean
+          </h4>
+          <span className="block font-sans text-base sm:text-lg font-medium text-zinc-500 leading-tight mt-1">
+            Harvest
+          </span>
+          <p className="mt-3 text-xs text-zinc-600 max-w-[210px] sm:max-w-xs leading-relaxed">
+            Single-origin hand-pounded spices & wild-caught coastal catch.
+          </p>
+        </div>
+        {/* Opposite end: Leaping chrome fish floating directly on mild gradient with natural image shadow, no inner box */}
+        <div className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 shrink-0 relative flex items-center justify-center">
+          <img
+            src="/badges/wild-harvest-3d.png"
+            alt="Wild Ocean Harvest 3D"
+            className="w-full h-full object-contain filter drop-shadow-[0_16px_28px_rgba(0,0,0,0.18)] group-hover:scale-105 group-hover:-translate-y-1 transition-all duration-500"
+            loading="lazy"
+          />
         </div>
       </div>
     </div>
@@ -198,17 +259,17 @@ export function TrustBadges() {
 
 export function Footer() {
   return (
-    <footer className="relative z-30 mt-0 border-t border-white/10 bg-black text-white pt-16 pb-12 px-6 md:px-12">
+    <footer className="relative z-30 mt-0 border-t border-white/10 bg-black text-white pt-16 pb-12 px-4 sm:px-6 md:px-12">
       <div className="relative z-40 mx-auto max-w-7xl">
         {/* Official TNJFU Collaboration Showcase Banner */}
-        <div className="mb-14 rounded-3xl border border-white/15 bg-gradient-to-r from-zinc-950 via-zinc-900 to-black p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+        <div className="mb-14 rounded-3xl border border-white/15 bg-gradient-to-r from-zinc-950 via-zinc-900 to-black p-5 sm:p-8 shadow-2xl relative overflow-hidden">
           <div className="absolute right-0 top-0 -mt-8 -mr-8 w-64 h-64 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
           <div className="relative z-10 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
-            <div className="shrink-0 p-3 bg-white rounded-2xl shadow-xl flex items-center justify-center">
+            <div className="shrink-0 flex items-center justify-center">
               <img
                 src="/tnjfu-logo.png"
-                alt="Tamil Nadu Dr. J. Jayalalithaa Fisheries University (TNJFU) Logo"
-                className="h-20 w-20 sm:h-24 sm:w-24 object-contain"
+                alt="Tamil Nadu Dr. J. Jayalalithaa Fisheries University (TNJFU), Nagapattinam Logo"
+                className="h-20 w-20 sm:h-24 sm:w-24 object-contain filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.5)]"
                 loading="lazy"
               />
             </div>
@@ -217,10 +278,10 @@ export function Footer() {
                 Manufacturing & Technology Collaboration
               </p>
               <h3 className="font-display text-xl sm:text-2xl uppercase tracking-wide text-white">
-                Collaborative Manufacturing with TNJFU
+                Collaborative Manufacturing with Tamil Nadu <span className="whitespace-nowrap">Dr. J. Jayalalithaa</span> Fisheries University (TNJFU), Nagapattinam
               </h3>
               <p className="mt-2 text-xs sm:text-sm leading-relaxed text-white/80 max-w-3xl">
-                We proudly collaborate with <strong className="text-white font-bold">Tamil Nadu Dr. J. Jayalalithaa Fisheries University (TNJFU)</strong> for manufacturing, technical incubation, and quality standards. Our artisanal seafood products are crafted utilizing university-guided marine processing standards, hygienic solar drying protocols, and strict food safety validation.
+                We proudly collaborate with <strong className="text-white font-bold">Tamil Nadu <span className="whitespace-nowrap">Dr. J. Jayalalithaa</span> Fisheries University (TNJFU), Nagapattinam</strong> for manufacturing, technical incubation, and quality standards. Our artisanal seafood products are crafted utilizing university-guided marine processing standards, hygienic solar drying protocols, and strict food safety validation.
               </p>
             </div>
           </div>
@@ -303,9 +364,9 @@ export function Footer() {
               +91 63743 92488 <ArrowUpRight size={16} />
             </a>
             <p className="mt-2 text-xs text-white/60 leading-relaxed">
-              In Collaborative Manufacturing with TNJFU,<br />
+              In Collaborative Manufacturing with Tamil Nadu <span className="whitespace-nowrap">Dr. J. Jayalalithaa</span> Fisheries University (TNJFU), Nagapattinam,<br />
               Coastal Artisanal Facility,<br />
-              Southern Coast, Tamil Nadu, India.
+              Nagapattinam, Tamil Nadu, India.
             </p>
             <a
               href="https://www.instagram.com/chenkaifoods/"
@@ -320,7 +381,7 @@ export function Footer() {
 
         {/* Bottom Bar without Back to Top Button */}
         <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/15 pt-8 text-xs text-white/50">
-          <span>© {new Date().getFullYear()} Chenkai Foods. In manufacturing collaboration with TNJFU. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Chenkai Foods. In manufacturing collaboration with Tamil Nadu <span className="whitespace-nowrap">Dr. J. Jayalalithaa</span> Fisheries University (TNJFU), Nagapattinam. All rights reserved.</span>
 
           <a
             href="https://www.instagram.com/chenkaifoods/"

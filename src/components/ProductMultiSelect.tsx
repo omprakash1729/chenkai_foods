@@ -368,14 +368,14 @@ export function ProductMultiSelect({ selectedItems, onChange }: ProductMultiSele
                   </div>
 
                   {/* Right: Weight selector + Qty Stepper + Delete */}
-                  <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                  <div className="flex flex-wrap items-center gap-2 max-w-full sm:self-center">
                     {/* Weight / Variant dropdown */}
-                    <div className="relative">
+                    <div className="relative max-w-[145px] sm:max-w-none">
                       <select
                         aria-label={`Select weight or variant for ${item.name}`}
                         value={item.weight}
                         onChange={(e) => updateWeight(item.productId, e.target.value)}
-                        className="rounded-xl border border-red-200 bg-white dark:bg-card px-2.5 py-1.5 text-xs font-bold text-foreground outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 shadow-xs cursor-pointer pr-7"
+                        className="w-full rounded-xl border border-red-200 bg-white dark:bg-card px-2.5 py-1.5 text-xs font-bold text-foreground outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 shadow-xs cursor-pointer pr-6 truncate"
                       >
                         {weights.map((w) => (
                           <option key={w} value={w}>
@@ -390,12 +390,12 @@ export function ProductMultiSelect({ selectedItems, onChange }: ProductMultiSele
                     </div>
 
                     {/* Quantity Stepper */}
-                    <div className="flex items-center rounded-full bg-primary text-white shadow-sm overflow-hidden h-7">
+                    <div className="flex items-center rounded-full bg-primary text-white shadow-sm overflow-hidden h-7 shrink-0">
                       <button
                         type="button"
                         onClick={() => updateQty(item.productId, -1)}
                         aria-label={`Decrease quantity of ${item.name}`}
-                        className="w-6 h-full flex items-center justify-center hover:bg-red-700 transition-colors"
+                        className="w-6 h-full min-w-0 min-h-0 flex items-center justify-center hover:bg-red-700 transition-colors"
                       >
                         <Minus size={11} strokeWidth={3} />
                       </button>
@@ -406,7 +406,7 @@ export function ProductMultiSelect({ selectedItems, onChange }: ProductMultiSele
                         type="button"
                         onClick={() => updateQty(item.productId, 1)}
                         aria-label={`Increase quantity of ${item.name}`}
-                        className="w-6 h-full flex items-center justify-center hover:bg-red-700 transition-colors"
+                        className="w-6 h-full min-w-0 min-h-0 flex items-center justify-center hover:bg-red-700 transition-colors"
                       >
                         <Plus size={11} strokeWidth={3} />
                       </button>
@@ -417,7 +417,7 @@ export function ProductMultiSelect({ selectedItems, onChange }: ProductMultiSele
                       type="button"
                       onClick={() => removeItem(item.productId)}
                       aria-label={`Remove ${item.name}`}
-                      className="w-7 h-7 rounded-full bg-white dark:bg-card border border-red-200/80 hover:bg-red-100 flex items-center justify-center text-zinc-400 hover:text-red-600 transition-colors cursor-pointer"
+                      className="w-7 h-7 min-w-0 min-h-0 rounded-full bg-white dark:bg-card border border-red-200/80 hover:bg-red-100 flex items-center justify-center text-zinc-400 hover:text-red-600 transition-colors cursor-pointer shrink-0"
                     >
                       <X size={12} />
                     </button>
