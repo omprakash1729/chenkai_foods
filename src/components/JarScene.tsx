@@ -142,7 +142,7 @@ function GLTFJar() {
 
     const mobileT = Math.max(0, Math.min(1, seg));
     const mobileEase = mobileT * mobileT * (3 - 2 * mobileT);
-    const mobileTx = (side * 0.88) + ((-side * 0.88) - (side * 0.88)) * mobileEase;
+    const mobileTx = (side * 0.98) + ((-side * 0.88) - (side * 0.98)) * mobileEase;
 
     const tx = mobile ? mobileTx : desktopTx;
     const ty = mobile ? -mobileExitY : 0;

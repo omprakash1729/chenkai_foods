@@ -51,11 +51,11 @@ function HomeInner() {
         <section id="sec-hero" className="relative z-10 min-h-[92svh] px-4 pb-6 pt-20 sm:pt-36 md:px-8 md:pt-44 flex flex-col justify-between overflow-hidden">
           <div className="relative z-30 mx-auto max-w-7xl w-full my-auto sm:my-0">
             <p className="eyebrow text-primary font-black tracking-[0.25em] text-xs sm:text-sm">South Indian soul. Unmistakable flavour.</p>
-            <h1 className="mt-3 sm:mt-5 font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl uppercase tracking-tight leading-[0.96] max-w-[70%] sm:max-w-none break-words">
+            <h1 className="mt-3 sm:mt-5 font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl uppercase tracking-tight leading-[0.96] max-w-[56%] sm:max-w-none break-words">
               Chenkai<br />
               <span className="text-primary">Food.</span>
             </h1>
-            <h2 className="mt-4 sm:mt-5 max-w-[65%] sm:max-w-lg text-xs sm:text-lg leading-relaxed text-muted-foreground font-medium">
+            <h2 className="mt-4 sm:mt-5 max-w-[54%] sm:max-w-lg text-xs sm:text-lg leading-relaxed text-muted-foreground font-medium">
               Authentic prawn and dry fish pickles, packed with traditional flavours and the perfect blend of spices.
             </h2>
             <Button asChild size="default" className="relative mt-6 sm:mt-6 rounded-full shadow-md glow-hover font-bold text-xs uppercase tracking-wider px-5 sm:px-7 h-11 sm:h-12 w-fit">
